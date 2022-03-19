@@ -75,12 +75,12 @@ LayersDiagram.prototype = {
             sidebarcomponent.draggable = true;
 
             // events
-            //sidebarcomponent.addEventListener('drag', (e) => this.dragSidebarComponent(e));
-            sidebarcomponent.addEventListener('dragend', (e) => this.dropSidebarComponent(e));
+            sidebarcomponent.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text', e.target.id) } );
 
             const image = document.createElement("img");
             image.src = this.components[componentName].image;
             image.style = "max-width: 100%; max-height: 100%; transform: translateY(50%);";
+            image.draggable = false;
 
             sidebar.append(sidebarcomponent);
             sidebarcomponent.append(image);
@@ -135,35 +135,68 @@ LayersDiagram.prototype = {
             newlayer.onclick = () => { this.popup() };
 
             const image = document.createElement("img");
+            //image.className = "layer";
 
             if (!(componentName == null)) {
                 image.src = this.components[componentName].image;
             }
             else {
                 image.src = "";
-                newlayer.style += `margin-left: 5%; z-index: ${this.layers + 1}; position: relative; width: 100%; height: 5vw;`;
+                newlayer.style += `margin-left: 5%; z-index: ${this.layers + 1}; position: relative; width: 100%; height: 5vw; background-color: black`;
             }
 
             //events
             image.ondragenter = (e) => { this.dragComponent(e) };
             image.ondragleave = () => { this.dragLeaveComponent() };
+            image.addEventListener("dragover", function (e) { e.preventDefault() });
+            image.ondrop = (e) => { this.dropSidebarComponent(e) };
 
             newlayer.append(image);
-
             diagram.prepend(newlayer);
 
+            this.layersOrder.push(componentName);
             this.layers++;
-            this.collapse();
+
+            setTimeout(() => {
+                this.collapse();
+            }, 300);
         }
     },
 
-    collapse: function () {
+    collapse: function (ignoreIndex=-1) {
         // Compress the layers in the diagram
 
-        $(`#${this.id} .diagram`).children().each((i, c) => {
-            const position = c.style.zIndex - Math.ceil(this.layers / 2);
-            c.style.transform = `translateY(calc(50% * ${position}))`;
-        });
+        let greaterOverlap = 0;
+        let lesserOverlap = 0;
+
+        const mid = Math.ceil(this.layers / 2);
+        const layers = $(`#${this.id} .diagram`).children();
+
+        for (i = mid + 1; i < this.layers; ++i) {
+            let overlapPercent = 0;
+            if (i != ignoreIndex) {
+                overlapPercent = this.components[this.layersOrder[i - 1]].overlap;
+            }
+
+            lesserOverlap += layers[this.layers - i].offsetHeight * overlapPercent / 100.0;
+
+            layers[this.layers - i - 1].style.transform = `translateY(${lesserOverlap}px)`;
+        }
+
+        for (i = mid - 1; i > 0; --i) {
+            let overlapPercent = 0;
+            if (i != ignoreIndex) {
+                overlapPercent = this.components[this.layersOrder[i]].overlap;
+            }
+
+            greaterOverlap -= layers[this.layers - i - 1].offsetHeight * overlapPercent / 100.0;
+
+            layers[this.layers - i - 1].style.transform = `translateY(${greaterOverlap}px)`;
+        }
+
+        if (this.layers > 1) {
+            layers[this.layers - 1].style.transform = `translateY(${greaterOverlap}px)`
+        }
     },
 
     fanout: function () {
@@ -177,7 +210,8 @@ LayersDiagram.prototype = {
     getHoveredLayer: function () {
         // Get layer div that mouse is hovered over
 
-        const droploc = document.querySelectorAll(`#${this.id} .layer :hover`);
+        const droploc = document.querySelectorAll(`.layer :hover`);
+
         if (droploc.length > 0) {
             return droploc[droploc.length - 1].parentElement;
         }
@@ -188,17 +222,7 @@ LayersDiagram.prototype = {
         // Move diagram to show dragged component location
 
         const index = e.target.parentElement.style.zIndex;
-
-        $(`#${this.id} .diagram`).children().each((i, c) => {
-            const position = c.style.zIndex - Math.ceil(this.layers / 2);
-
-            if ($(`#${this.id} .diagram`).children().length - i > index) {
-                c.style.transform = `translateY(calc(50% * ${position - 1}))`;
-            }
-            else {
-                c.style.transform = `translateY(calc(50% * ${position}))`;
-            }
-        });
+        this.collapse((index > Math.ceil(this.layers / 2)) ? index : index - 1);
     },
 
     dragLeaveComponent: function (e) {
@@ -214,25 +238,42 @@ LayersDiagram.prototype = {
     dropSidebarComponent: function (e) {
         // Drop a dragged sidebar component
 
-        const droploc = document.querySelectorAll(`#${this.id} .layer :hover`);
+        e.preventDefault();
 
-        if (droploc.length > 0) {
-            const index = parseInt(droploc[droploc.length - 1].parentElement.style.zIndex) + 1;
+        const droploc = e.target;
+        const index = parseInt(droploc.parentElement.style.zIndex);
 
-            this.addLayer(e.target.id);
+        this.addLayer(e.dataTransfer.getData('text'));
 
-            $(`#${this.id} .diagram`).children().each((i, c) => {
-                console.log(`${c.style.zIndex} | ${i}`);
-                if (i < this.layers - index) {
-                    c.children[0].src = c.parentElement.children[i + 1].children[0].src;
-                    console.log(`replaced: ${c.style.zIndex} | ${i}`);
-                }
-                if (this.layers - i == index) {
-                    c.children[0].src = this.components[e.target.id].image;
-                    console.log(`new: ${c.style.zIndex} | ${i}`);
-                }
-            });
-        }
+        const newLayerComponent = this.layersOrder.pop();
+        this.layersOrder.splice(index, 0, newLayerComponent);
+        console.log(this.layersOrder);
+
+        /*$(`#${this.id} .diagram`).children().each((i, c) => {
+            console.log(`${c.style.zIndex} | ${i}`);
+            if (i < this.layers - index) {
+                c.children[0].src = c.parentElement.children[i + 1].children[0].src;
+                console.log(`replaced: ${c.style.zIndex} | ${i}`);
+            }
+            if (this.layers - i == index) {
+                c.children[0].src = this.components[newLayerComponent].image;
+                console.log(`new: ${c.style.zIndex} | ${i}`);
+            }
+        });*/
+
+        this.updateAllLayers();
+
+        this.collapse();
+    },
+
+    updateAllLayers: function () {
+        let index = 0;
+        $(`#${this.id} .diagram`).children().each((i, c) => {
+            if (this.layersOrder[this.layers - index - 1] != null) {
+                c.children[0].src = this.components[this.layersOrder[this.layers - index - 1]].image;
+            }
+            index += 1;
+        });
     },
 
     moveLayer: function () {

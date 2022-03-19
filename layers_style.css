@@ -1,5 +1,0 @@
-@property --ceil {
-    syntax: '<integer>';
-    initial-value: 0;
-    inherits: false;
-}

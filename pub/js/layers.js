@@ -24,7 +24,7 @@ LayersDiagram.prototype = {
             layersdiagram.style = `width: calc(${this.diagramwidth} + ${this.sidebarwidth}); min-height: ${this.sidebarheight}; margin: auto; border-radius: 5%; background-color: white; position: relative;`;
 
             const sidebar = document.createElement("div");
-            sidebar.style = `width: calc(${this.sidebarwidth}); height: ${this.sidebarheight}; float: left; transform: translateY(50%); background-color: grey; overflow: auto;`
+            sidebar.style = `width: calc(${this.sidebarwidth}); max-height: ${this.sidebarheight}; float: left; margin: auto; position: relative; background-color: slategray; overflow: auto;`
             sidebar.className = "sidebar";
             layersdiagram.appendChild(sidebar);
         }
@@ -34,7 +34,7 @@ LayersDiagram.prototype = {
 
         const diagram = document.createElement("div");
         diagram.style = `width: ${this.diagramwidth}; margin-left: ${this.sidebarwidth}; margin-top: 2.5%; margin-bottom: 2.5%; 
-                        background-color: blue; position: relative; top: 50%; transform: translateY(0%);`
+                        background-color: lightgray; position: relative; top: 50%; transform: translateY(0%);`
         diagram.className = "diagram"
         layersdiagram.appendChild(diagram);
 
@@ -49,16 +49,22 @@ LayersDiagram.prototype = {
         popup.className = "hide";
         layersdiagram.append(popup);
 
-        const tabs = document.createElement("div");
-        tabs.className = "tabs";
-        popup.append(tabs);
+        const exitbutton = document.createElement("button");
+        exitbutton.className = "exit";
+        exitbutton.innerText = "X";
+        popup.append(exitbutton);
 
-        const descriptionbutton = document.createElement("button");
-        tabs.append(descriptionbutton);
+        const popupview = document.createElement("div");
+        popupview.className = "popupview";
+        popup.append(popupview);
 
         const popupcontent = document.createElement("div");
         popupcontent.className = "popupcontent";
-        popup.append(popupcontent);
+        popupview.append(popupcontent);
+
+        //events
+        exitbutton.onclick = () => this.popupHide();
+
     },
 
     addComponent: function (putInSidebar, name, image, overlap = 50) {
@@ -93,7 +99,7 @@ LayersDiagram.prototype = {
             sidebarcomponent.draggable = true;
 
             // events
-            sidebarcomponent.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text', e.target.id) } );
+            sidebarcomponent.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text', JSON.stringify(["new", e.target.id])) } );
 
             const image = document.createElement("img");
             image.src = this.components[componentName].image;
@@ -146,11 +152,13 @@ LayersDiagram.prototype = {
             const newlayer = document.createElement("div");
             newlayer.className = "layer";
             newlayer.style = `margin-left: 5%; z-index: ${this.layers + 1}; position: relative;`;
+            newlayer.draggable = true;
 
             // events
             newlayer.onmouseover = () => { this.fanout() };
             newlayer.onmouseout = () => { this.collapse() };
             newlayer.onclick = (e) => { this.popupShow(e) };
+            newlayer.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text', JSON.stringify(["layer", e.target.style.zIndex])) });
 
             const image = document.createElement("img");
             image.className = "layerimage";
@@ -161,14 +169,15 @@ LayersDiagram.prototype = {
             else {
                 image.src = "images/bottom_bun.png";
                 image.style = "width: 100%; height: 100%; opacity: 0";
-                newlayer.style += `margin-left: 5%; z-index: ${this.layers + 1}; position: relative; width: 100%; height: 5vw; background-color: black`;
+                newlayer.style += `margin-left: 5%; z-index: ${this.layers + 1}; position: relative; width: 100%; height: 8vw;`;
             }
 
             //events
             image.ondragenter = (e) => { this.dragComponent(e) };
             image.ondragleave = () => { this.dragLeaveComponent() };
             image.addEventListener("dragover", function (e) { e.preventDefault() });
-            image.ondrop = (e) => { this.dropSidebarComponent(e) };
+            image.ondrop = (e) => { this.dropComponent(e) };
+            image.draggable = false;
 
             newlayer.append(image);
             diagram.prepend(newlayer);
@@ -254,34 +263,38 @@ LayersDiagram.prototype = {
         }
     },
 
-    dropSidebarComponent: function (e) {
-        // Drop a dragged sidebar component
+    dropComponent: function (e) {
+        // Drop a dragged component/layer into diagram
 
         e.preventDefault();
 
+        const data = JSON.parse(e.dataTransfer.getData('text'));
         const droploc = e.target;
-        const index = parseInt(droploc.parentElement.style.zIndex);
 
-        this.addLayer(e.dataTransfer.getData('text'));
+        if (data[0] == "new") {
+            const index = parseInt(droploc.parentElement.style.zIndex);
 
-        const newLayerComponent = this.layersOrder.pop();
-        this.layersOrder.splice(index, 0, newLayerComponent);
-        console.log(this.layersOrder);
+            this.addLayer(data[1]);
 
-        /*$(`#${this.id} .diagram`).children().each((i, c) => {
-            console.log(`${c.style.zIndex} | ${i}`);
-            if (i < this.layers - index) {
-                c.children[0].src = c.parentElement.children[i + 1].children[0].src;
-                console.log(`replaced: ${c.style.zIndex} | ${i}`);
+            const newLayerComponent = this.layersOrder.pop();
+            this.layersOrder.splice(index, 0, newLayerComponent);
+        }
+        else if (data[0] == "layer") {
+            const index1 = parseInt(droploc.parentElement.style.zIndex) - 1;
+            const index2 = parseInt(data[1]) - 1;
+
+            const component = this.layersOrder[index2];
+            this.layersOrder.splice(index2, 1);
+            if (index1 > index2) {
+                this.layersOrder.splice(index1, 0, component);
             }
-            if (this.layers - i == index) {
-                c.children[0].src = this.components[newLayerComponent].image;
-                console.log(`new: ${c.style.zIndex} | ${i}`);
+            else {
+                this.layersOrder.splice(index1 + 1, 0, component);
             }
-        });*/
+            
+        }
 
         this.updateAllLayers();
-
         this.collapse();
     },
 
@@ -295,13 +308,22 @@ LayersDiagram.prototype = {
         });
     },
 
-    moveLayer: function () {
-        // Drag and move a layer in the diagram
-
-    },
-
     popupShow: function (e) {
         document.getElementById("popup").className = "show";
+
+        let obj = e.target;
+        if (obj.className != "layer" && obj.parentElement.className == "layer") {
+            obj = obj.parentElement;
+        }
+
+        if (obj.className == "layer") {
+            if (this.components[this.layersOrder[obj.style.zIndex - 1]].description != null && this.components[this.layersOrder[obj.style.zIndex - 1]].description != "") {
+                $("#popup .popupcontent")[0].innerText = this.components[this.layersOrder[obj.style.zIndex - 1]].description;
+            }
+            else {
+                $("#popup .popupcontent")[0].innerText = "There is no description.";
+            }
+        }
     },
 
     popupHide: function () {

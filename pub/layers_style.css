@@ -19,37 +19,40 @@
     opacity: 0;
 }
 
-.tabs {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 5vw;
-    overflow: hidden;
+.popupview {
+    width: calc(100% - 1.5vw);
+    margin-top: 0;
+    height: calc(100% - 4vw);
     border: 0.3vw solid black;
+    border-radius: 3vw;
     background-color: white;
-    border-radius: 3vw 3vw 0 0;
+    overflow: hidden;
 }
 
 .popupcontent {
     margin: 0;
     width: 100%;
-    height: calc(100% - 5vw);
+    height: calc(100% - 4vw);
+    padding-top: 2vw;
+    padding-right: 10px;
+    padding-left: 5px;
     overflow-y: auto;
     overflow-x: hidden;
-    border: 0.3vw solid black;
-    border-radius: 0 0 3vw 3vw;
-    background-color: white;
+    font-size: 2.5vw;
 }
 
-.tabs button {
-    background-color: inherit;
-    float: left;
-    border: none;
+#popup .exit {
+    background-color: orangered;
+    width: 4vw;
+    height: 4vw;
+    border-radius: 1vw;
+    font-size: 3vw;
+    float: right;
+}
+
+#popup .exit:hover {
     cursor: pointer;
-}
-
-.tabs button:hover {
-    background-color: lightgrey;
+    background-color: darkred;
 }
 
 .layerimage {

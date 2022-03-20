@@ -1,0 +1,24 @@
+{
+  "name": "js-library-wangni39",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csc309-winter-2022/js-library-wangni39.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/csc309-winter-2022/js-library-wangni39/issues"
+  },
+  "homepage": "https://github.com/csc309-winter-2022/js-library-wangni39#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "jquery": "^3.6.0"
+  }
+}

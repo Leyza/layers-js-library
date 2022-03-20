@@ -18,22 +18,23 @@ LayersDiagram.prototype = {
 
         const layersdiagram = document.createElement("div");
         layersdiagram.id = this.id;
+        layersdiagram.className = "layersdiagram";
 
         if (this.allowEdit) {
-            layersdiagram.style = `width: calc(${this.diagramwidth} + ${this.sidebarwidth}); height: ${this.sidebarheight}; margin: 10vw; border-radius: 5%; background-color: white; position: relative;`;
+            layersdiagram.style = `width: calc(${this.diagramwidth} + ${this.sidebarwidth}); min-height: ${this.sidebarheight}; margin: auto; border-radius: 5%; background-color: white; position: relative;`;
 
             const sidebar = document.createElement("div");
-            sidebar.style = `width: calc(${this.sidebarwidth}); height: ${this.sidebarheight}; float: left; background-color: grey; overflow: auto;`
+            sidebar.style = `width: calc(${this.sidebarwidth}); height: ${this.sidebarheight}; float: left; transform: translateY(50%); background-color: grey; overflow: auto;`
             sidebar.className = "sidebar";
             layersdiagram.appendChild(sidebar);
         }
         else {
-            layersdiagram.style = `width: ${this.diagramwidth}; height: ${this.sidebarheight}; margin: 10vw; border-radius: 5%; background-color: white; position: relative;`;
+            layersdiagram.style = `width: ${this.diagramwidth}; min-height: ${this.sidebarheight}; margin: 10vw; border-radius: 5%; background-color: white; position: relative;`;
         }
 
         const diagram = document.createElement("div");
         diagram.style = `width: ${this.diagramwidth}; margin-left: ${this.sidebarwidth}; margin-top: 2.5%; margin-bottom: 2.5%; 
-                        background-color: blue; position: relative; top: 50%; -ms-transform: translateY(-50%); transform: translateY(-50%);`
+                        background-color: blue; position: relative; top: 50%; transform: translateY(0%);`
         diagram.className = "diagram"
         layersdiagram.appendChild(diagram);
 
@@ -41,6 +42,23 @@ LayersDiagram.prototype = {
         body.append(layersdiagram);
 
         this.addLayer(null);
+
+        // Add popup window
+        const popup = document.createElement("div");
+        popup.id = "popup";
+        popup.className = "hide";
+        layersdiagram.append(popup);
+
+        const tabs = document.createElement("div");
+        tabs.className = "tabs";
+        popup.append(tabs);
+
+        const descriptionbutton = document.createElement("button");
+        tabs.append(descriptionbutton);
+
+        const popupcontent = document.createElement("div");
+        popupcontent.className = "popupcontent";
+        popup.append(popupcontent);
     },
 
     addComponent: function (putInSidebar, name, image, overlap = 50) {
@@ -132,16 +150,17 @@ LayersDiagram.prototype = {
             // events
             newlayer.onmouseover = () => { this.fanout() };
             newlayer.onmouseout = () => { this.collapse() };
-            newlayer.onclick = () => { this.popup() };
+            newlayer.onclick = (e) => { this.popupShow(e) };
 
             const image = document.createElement("img");
-            //image.className = "layer";
+            image.className = "layerimage";
 
             if (!(componentName == null)) {
                 image.src = this.components[componentName].image;
             }
             else {
-                image.src = "";
+                image.src = "images/bottom_bun.png";
+                image.style = "width: 100%; height: 100%; opacity: 0";
                 newlayer.style += `margin-left: 5%; z-index: ${this.layers + 1}; position: relative; width: 100%; height: 5vw; background-color: black`;
             }
 
@@ -281,7 +300,11 @@ LayersDiagram.prototype = {
 
     },
 
-    popup: function () {
+    popupShow: function (e) {
+        document.getElementById("popup").className = "show";
+    },
 
+    popupHide: function () {
+        document.getElementById("popup").className = "hide";
     }
 }

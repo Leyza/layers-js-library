@@ -1,3 +1,4 @@
+"use strict"
 
 const newdiagram = new LayersDiagram("testdiagram", "40vw", "5vw", "30vw");
 newdiagram.makeDiagram();

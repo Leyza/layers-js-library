@@ -24,7 +24,7 @@ LayersDiagram.prototype = {
             layersdiagram.style = `width: calc(${this.diagramwidth} + ${this.sidebarwidth}); min-height: ${this.sidebarheight}; margin: auto; border-radius: 5%; background-color: white; position: relative;`;
 
             const sidebar = document.createElement("div");
-            sidebar.style = `width: calc(${this.sidebarwidth}); max-height: ${this.sidebarheight}; float: left; margin: auto; position: relative; background-color: slategray; overflow: auto;`
+            sidebar.style = `width: calc(${this.sidebarwidth}); max-height: ${this.sidebarheight}; float: left; margin: auto; position: relative; background-color: slategray; overflow-y: auto; overflow-x: hidden; padding-right: 15px;`
             sidebar.className = "sidebar";
             layersdiagram.appendChild(sidebar);
         }

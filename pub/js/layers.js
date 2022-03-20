@@ -13,7 +13,7 @@ function LayersDiagram(id, diagramwidth, sidebarwidth, sidebarheight, allowEdit 
 }
 
 LayersDiagram.prototype = {
-    makeDiagram: function () {
+    makeDiagram: function (element=null) {
         // Draw the diagram
 
         const layersdiagram = document.createElement("div");
@@ -38,8 +38,13 @@ LayersDiagram.prototype = {
         diagram.className = "diagram"
         layersdiagram.appendChild(diagram);
 
-        const body = $("body");
-        body.append(layersdiagram);
+        if (element == null) {
+            const body = $("body");
+            body.append(layersdiagram);
+        }
+        else {
+            element.append(layersdiagram);
+        }
 
         this.addLayer(null);
 
@@ -99,7 +104,9 @@ LayersDiagram.prototype = {
             sidebarcomponent.draggable = true;
 
             // events
-            sidebarcomponent.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text', JSON.stringify(["new", e.target.id])) } );
+            sidebarcomponent.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text', JSON.stringify(["new", e.target.id])) });
+            sidebarcomponent.addEventListener("dragover", function (e) { e.preventDefault() });
+            sidebarcomponent.ondrop = (e) => this.dropComponentInSidebar(e);
 
             const image = document.createElement("img");
             image.src = this.components[componentName].image;
@@ -152,13 +159,15 @@ LayersDiagram.prototype = {
             const newlayer = document.createElement("div");
             newlayer.className = "layer";
             newlayer.style = `margin-left: 5%; z-index: ${this.layers + 1}; position: relative;`;
-            newlayer.draggable = true;
 
             // events
-            newlayer.onmouseover = () => { this.fanout() };
-            newlayer.onmouseout = () => { this.collapse() };
-            newlayer.onclick = (e) => { this.popupShow(e) };
-            newlayer.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text', JSON.stringify(["layer", e.target.style.zIndex])) });
+            if (componentName != null) {
+                newlayer.draggable = true;
+                newlayer.onmouseover = () => { this.fanout() };
+                newlayer.onmouseout = () => { this.collapse() };
+                newlayer.onclick = (e) => { this.popupShow(e) };
+                newlayer.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text', JSON.stringify(["layer", e.target.style.zIndex])) });
+            }
 
             const image = document.createElement("img");
             image.className = "layerimage";
@@ -189,6 +198,11 @@ LayersDiagram.prototype = {
                 this.collapse();
             }, 300);
         }
+    },
+
+    removeTopLayer: function () {
+        $(`#${this.id} .diagram`).children()[0].remove();
+        this.layers -= 1;
     },
 
     collapse: function (ignoreIndex=-1) {
@@ -295,6 +309,23 @@ LayersDiagram.prototype = {
         }
 
         this.updateAllLayers();
+        this.collapse();
+    },
+
+    dropComponentInSidebar: function (e) {
+        // Dragging a component to the sidebar to remove it from diagram
+        e.preventDefault();
+
+        const data = JSON.parse(e.dataTransfer.getData('text'));
+
+        if (data[0] == "layer") {
+            const index = parseInt(data[1]) - 1;
+            this.layersOrder.splice(index, 1);
+
+            this.removeTopLayer();
+            this.updateAllLayers();
+        }
+
         this.collapse();
     },
 

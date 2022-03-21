@@ -16,7 +16,7 @@ app.listen(port, () => {
 })
 
 app.get('/', (req, res) => {
-	res.send('<h1>Go to https://layers-js-library.herokuapp.com/pub/example.html</h1>')
+	res.send('<h1>Go to https://layers-js-library.herokuapp.com/example.html</h1>')
 })
 
 // Error codes

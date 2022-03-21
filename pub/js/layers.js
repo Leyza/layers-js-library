@@ -177,7 +177,7 @@ LayersDiagram.prototype = {
             }
             else {
                 image.src = "images/bottom_bun.png";
-                image.style = "width: 100%; height: 100%; opacity: 0";
+                image.style = "opacity: 0";
                 newlayer.style += `margin-left: 5%; z-index: ${this.layers + 1}; position: relative; width: 100%; height: 8vw;`;
             }
 

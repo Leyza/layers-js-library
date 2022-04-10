@@ -1,10 +1,12 @@
 
-function LayersDiagram(id, diagramwidth, sidebarwidth, sidebarheight, allowEdit = true) {
+function LayersDiagram(id, sidebarwidth, sidebarheight, diagramwidth, diagramheight = null, allowEdit = true, layerlimit = Infinity,) {
     this.id = id;
     this.diagramwidth = diagramwidth;
+    this.diagramheight = diagramheight;
     this.sidebarwidth = sidebarwidth;
     this.sidebarheight = sidebarheight;
     this.madeDiagram = false;
+    this.layerlimit = layerlimit + 1;
 
     this.layers = 0;
     this.layersOrder = [null];
@@ -12,6 +14,7 @@ function LayersDiagram(id, diagramwidth, sidebarwidth, sidebarheight, allowEdit 
     this.allowEdit = allowEdit;
     this.sidebarComponents = 0;
     this.sidebar = [];
+    this.draggeditem = null;
 }
 
 LayersDiagram.prototype = {
@@ -21,9 +24,14 @@ LayersDiagram.prototype = {
         const layersdiagram = document.createElement("div");
         layersdiagram.id = this.id;
         layersdiagram.className = "layersdiagram";
+        layersdiagram.style = `min-height: ${this.sidebarheight}; margin: auto; border-radius: 5%; background-color: white; position: relative;`
+
+        const diagram = document.createElement("div");
+        diagram.className = "diagrambox";
+        diagram.style = `width: ${this.diagramwidth}; border: 0.5vw solid black; border-radius: 5vw;`;
 
         if (this.allowEdit) {
-            layersdiagram.style = `width: calc(${this.diagramwidth} + ${this.sidebarwidth}); min-height: ${this.sidebarheight}; margin: auto; border-radius: 5%; background-color: white; position: relative;`;
+            layersdiagram.style.width = `calc(${this.diagramwidth} + ${this.sidebarwidth})`;
 
             const sidebar = document.createElement("div");
             sidebar.style = `width: ${this.sidebarwidth}; max-height: ${this.sidebarheight}; float: left; position: relative; display: flex; flex-direction: column; justify-content: space-between;`
@@ -35,24 +43,31 @@ LayersDiagram.prototype = {
 
             layersdiagram.appendChild(sidebar);
             sidebar.appendChild(sidebarComponentHolder);
+
+            diagram.style.marginLeft = this.sidebarwidth;
         }
         else {
-            layersdiagram.style = `width: ${this.diagramwidth}; min-height: ${this.sidebarheight}; margin: 10vw; border-radius: 5%; background-color: white; position: relative;`;
+            layersdiagram.style.width = this.diagramwidth;
         }
 
-        const diagram = document.createElement("div");
-        diagram.style = `width: ${this.diagramwidth}; margin-left: ${this.sidebarwidth}; border: 0.5vw solid black; border-radius: 5vw;`;
-        diagram.className = "diagrambox";
-        layersdiagram.appendChild(diagram);
-
         const componentHolder = document.createElement("div");
-        componentHolder.style = `width: 90%; margin: 5%; position: relative; top: 50%; transform: translateY(0%);`;
+        componentHolder.style = `width: 90%; margin: 5%; position: relative; transform: translateY(0%);`;
         componentHolder.className = "diagram";
+
+        if (this.diagramheight != null) {
+            diagram.style.height = this.diagramheight;
+            componentHolder.style.height = "95%";
+            componentHolder.style.width = "calc(90% + 10px)";
+            componentHolder.style.marginRight = "calc(5% - 10px)";
+            componentHolder.style.overflow = "auto";
+        }
+
+        layersdiagram.appendChild(diagram);
         diagram.appendChild(componentHolder);
 
         //events
-        componentHolder.onmouseover = () => { this.fanout() };
-        componentHolder.onmouseout = () => { this.collapse() };
+        componentHolder.onmouseover = () => { this.fanout(); };
+        componentHolder.onmouseout = () => { this.collapse(); };
 
         if (element == null) {
             const body = $("body");
@@ -66,7 +81,8 @@ LayersDiagram.prototype = {
         const popup = document.createElement("div");
         popup.id = "popup";
         popup.className = "hide";
-        layersdiagram.append(popup);
+        popup.style = "z-index: 1;";
+        $("body").append(popup);
 
         const exitbutton = document.createElement("button");
         exitbutton.className = "exit";
@@ -89,20 +105,20 @@ LayersDiagram.prototype = {
         this.updateAllLayers();
     },
 
-    addComponent: function (putInSidebar, name, image, overlap = 50) {
+    addComponent: function (putInSidebar, name, image, overlap = 50, start = 0) {
         // Create a new component
         let update = false;
         if (name in this.components) {
             update = true;
         }
 
-        this.components[name] = { image: image, description: null, overlap: overlap };
+        this.components[name] = { image: image, description: null, overlap: overlap, start: start };
         if (putInSidebar) {
             if (!update) {
                 this.sidebar.push(name);
             }
 
-            if (this.madeDiagram) {
+            if (this.madeDiagram && this.allowEdit) {
                 this.updateAllSidebar();
             }
         }
@@ -119,9 +135,10 @@ LayersDiagram.prototype = {
 
             // events
             sidebarcomponent.onclick = (e) => { this.popupShow(e) };
-            sidebarcomponent.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text', JSON.stringify(["new", e.target.id])) });
-            sidebarcomponent.addEventListener("dragover", function (e) { e.preventDefault() });
-            sidebarcomponent.ondrop = (e) => this.dropComponentInSidebar(e);
+            sidebarcomponent.addEventListener('dragstart', (e) => { this.draggeditem = {type: "new", name: e.target.id, zindex: null }; this.fanout(); });
+            sidebarcomponent.addEventListener("dragover", (e) => { e.preventDefault(); });
+            sidebarcomponent.ondragend = () => { this.collapse() };
+            sidebarcomponent.ondrop = (e) => { this.dropComponentInSidebar(e); this.draggeditem = null; };
 
             const image = document.createElement("img");
             image.style = `padding-top: 1vw; padding-bottom: 1vw; margin: auto; max-width: 95%; display: block; position: relative;`;
@@ -194,7 +211,7 @@ LayersDiagram.prototype = {
     addLayer: function (componentName) {
         // Add layer to layersOrder tracking and update diagram is applicable
 
-        if (componentName in this.components) {
+        if (componentName in this.components && this.layersOrder.length < this.layerlimit) {
             this.layersOrder.push(componentName);
         }
 
@@ -209,26 +226,32 @@ LayersDiagram.prototype = {
         const diagram = $(`#${this.id} .diagram`);
         const newlayer = document.createElement("div");
         newlayer.className = "layer";
-        newlayer.style = `width: 100%; z-index: ${this.layers + 1}; position: relative; transition: transform 0.5s ease;`;
+        newlayer.style = `z-index: ${this.layers + 1}; position: relative; transition: transform 0.5s ease;`;
 
         // events
         if (!isDummy) {
             newlayer.draggable = true;
             //newlayer.onmouseover = () => { this.fanout() };
             //newlayer.onmouseout = () => { this.collapse() };
-            newlayer.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text', JSON.stringify(["layer", e.target.style.zIndex])) });
+            newlayer.addEventListener('dragstart', (e) => { this.draggeditem = { type: "layer", name: null, zindex: e.target.style.zindex }; this.fanout(); });
         }
 
         const image = document.createElement("img");
         image.className = "layerimage";
-        image.style = `width: 100%;`;
+        if (this.diagramheight == null) {
+            image.style = `width: 100%;`;
+        } else {
+            image.style = `width: calc(100% - 10px)`;
+        }
 
         //events
+        if (this.allowEdit) {
+            image.ondragenter = (e) => { this.dragComponent(e); };
+            image.ondragleave = (e) => { this.dragLeaveComponent(); };
+            image.addEventListener("dragover", function (e) { e.preventDefault() });
+            image.ondrop = (e) => { this.dropComponent(e); this.draggeditem = null; };
+        }
         image.onclick = (e) => { this.popupShow(e) };
-        image.ondragenter = (e) => { this.dragComponent(e); e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.5)' };
-        image.ondragleave = (e) => { this.dragLeaveComponent(); e.target.style.backgroundColor = 'rgba(255, 255, 255, 0)' };
-        image.addEventListener("dragover", function (e) { e.preventDefault() });
-        image.ondrop = (e) => { this.dropComponent(e); e.target.style.backgroundColor = 'rgba(255, 255, 255, 0)' };
         image.draggable = false;
 
         newlayer.append(image);
@@ -295,12 +318,15 @@ LayersDiagram.prototype = {
             }
 
             overlap -= layers[this.layers - i - 1].offsetHeight * overlapPercent / 100.0;
+            overlap -= layers[this.layers - i - 2].offsetHeight * this.components[this.layersOrder[i + 1]].start / 100.0;
 
             layers[this.layers - i - 1].style.transform = `translateY(${overlap}px)`;
         }
 
         if (this.layers > 1) {
-            layers[this.layers - 1].style.transform = `translateY(${overlap}px)`
+            overlap -= layers[this.layers - 1].offsetHeight * this.components[this.layersOrder[this.layers - 1]].start / 100.0;
+
+            layers[this.layers - 1].style.transform = `translateY(${overlap}px)`;
         }
     },
 
@@ -325,19 +351,54 @@ LayersDiagram.prototype = {
 
     dragComponent: function (e) {
         // Move diagram to show dragged component location
+        e.preventDefault();
 
         const index = e.target.parentElement.style.zIndex;
+
+        let component = null;
+        if (this.draggeditem.type == "new") {
+            component = this.draggeditem.name;
+        }
+        else if (this.draggeditem.type == "layer") {
+            const i = parseInt(this.draggeditem.zindex) - 1;
+            component = this.layersOrder[i];
+        }
+        else {
+            console.log("Error in dragComponent: Invalid drag data.");
+            return;
+        }
+
         //this.collapse((index > Math.ceil(this.layers / 2)) ? index : index - 1); // For when fan out from the middle
-        this.collapse(index - 1); // For when fan out from the top
+        //this.collapse(index - 1); // For when fan out from the top
+
+        if (index < this.layers) {
+            const shiftup = $(`#${this.id} .diagram`).children()[this.layers - index - 1].offsetHeight * 0.5;
+            $(`#${this.id} .diagram`).children()[this.layers - index - 1].style.transform = `translateY(-${shiftup}px)`;
+        }
+
+        const img = document.createElement("img");
+        img.className = "ghost";
+        img.src = this.components[component].image;
+        img.style = `width: 100%; position: absolute; bottom: 80%; right: 3%; opacity: 0.5;`;
+
+        $(`#${this.id} .diagram`).children()[this.layers - index].appendChild(img);
     },
 
     dragLeaveComponent: function (e) {
-        // When dragging component leaves all layers
+        // When dragging component leaves a layer
 
         const layer = this.getHoveredLayer();
 
-        if (layer == null) {
+        /*if (layer == null) {
             this.collapse();
+        }*/
+
+        $(`#${this.id} .diagram .ghost`).each((i, c) => {
+            c.remove();
+        })
+
+        if (layer == null) {
+            this.fanout();
         }
     },
 
@@ -346,20 +407,19 @@ LayersDiagram.prototype = {
 
         e.preventDefault();
 
-        const data = JSON.parse(e.dataTransfer.getData('text'));
         const droploc = e.target;
 
-        if (data[0] == "new") {
+        if (this.draggeditem.type == "new" && this.layersOrder.length < this.layerlimit) {
             const index = parseInt(droploc.parentElement.style.zIndex);
 
-            this.addLayer(data[1]);
+            this.addLayer(this.draggeditem.name);
 
             const newLayerComponent = this.layersOrder.pop();
             this.layersOrder.splice(index, 0, newLayerComponent);
         }
-        else if (data[0] == "layer") {
+        else if (this.draggeditem.type == "layer") {
             const index1 = parseInt(droploc.parentElement.style.zIndex) - 1;
-            const index2 = parseInt(data[1]) - 1;
+            const index2 = parseInt(this.draggeditem.zindex) - 1;
 
             if (index1 != index2) {
                 const component = this.layersOrder[index2];
@@ -375,25 +435,31 @@ LayersDiagram.prototype = {
             
         }
 
+        $(`#${this.id} .diagram .ghost`).each((i, c) => {
+            c.remove();
+        })
+
         this.updateAllLayers();
-        this.collapse();
+        setTimeout(() => {
+            this.collapse();
+        }, 300);
     },
 
     dropComponentInSidebar: function (e) {
         // Dragging a component to the sidebar to remove it from diagram
         e.preventDefault();
 
-        const data = JSON.parse(e.dataTransfer.getData('text'));
-
-        if (data[0] == "layer") {
-            const index = parseInt(data[1]) - 1;
+        if (this.draggeditem.type == "layer") {
+            const index = parseInt(this.draggeditem.zindex) - 1;
             this.layersOrder.splice(index, 1);
 
             this.removeTopLayer();
             this.updateAllLayers();
         }
 
-        this.collapse();
+        setTimeout(() => {
+            this.collapse();
+        }, 300);
     },
 
     updateAllLayers: function () {
@@ -422,7 +488,7 @@ LayersDiagram.prototype = {
                 c.children[0].src = this.components[this.layersOrder[this.layers - index - 1]].image;
             } else {
                 c.children[0].src = this.components["_dummy"].image;
-                c.style.opacity = 0;
+                c.children[0].style.opacity = 0;
             }
             index += 1;
         });

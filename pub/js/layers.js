@@ -233,7 +233,7 @@ LayersDiagram.prototype = {
             newlayer.draggable = true;
             //newlayer.onmouseover = () => { this.fanout() };
             //newlayer.onmouseout = () => { this.collapse() };
-            newlayer.addEventListener('dragstart', (e) => { this.draggeditem = { type: "layer", name: null, zindex: e.target.style.zindex }; this.fanout(); });
+            newlayer.addEventListener('dragstart', (e) => { this.draggeditem = { type: "layer", name: null, zindex: e.target.style.zIndex }; this.fanout(); });
         }
 
         const image = document.createElement("img");
@@ -371,25 +371,26 @@ LayersDiagram.prototype = {
         //this.collapse((index > Math.ceil(this.layers / 2)) ? index : index - 1); // For when fan out from the middle
         //this.collapse(index - 1); // For when fan out from the top
 
-        if (index < this.layers) {
-            const shiftup = $(`#${this.id} .diagram`).children()[this.layers - index - 1].offsetHeight * 0.5;
-            $(`#${this.id} .diagram`).children()[this.layers - index - 1].style.transform = `translateY(-${shiftup}px)`;
+        if (this.draggeditem.zindex != index) {
+            if (index < this.layers) {
+                const shiftup = $(`#${this.id} .diagram`).children()[this.layers - index - 1].offsetHeight * 0.5;
+                $(`#${this.id} .diagram`).children()[this.layers - index - 1].style.transform = `translateY(-${shiftup}px)`;
+            }
+
+            const img = document.createElement("img");
+            img.className = "ghost";
+            img.src = this.components[component].image;
+            img.style = `width: 100%; position: absolute; bottom: 80%; right: 3%; opacity: 0.5;`;
+
+            $(`#${this.id} .diagram`).children()[this.layers - index].appendChild(img);
         }
-
-        const img = document.createElement("img");
-        img.className = "ghost";
-        img.src = this.components[component].image;
-        img.style = `width: 100%; position: absolute; bottom: 80%; right: 3%; opacity: 0.5;`;
-
-        $(`#${this.id} .diagram`).children()[this.layers - index].appendChild(img);
     },
 
     dragLeaveComponent: function (e) {
         // When dragging component leaves a layer
 
-        const layer = this.getHoveredLayer();
-
-        /*if (layer == null) {
+        /*const layer = this.getHoveredLayer();
+        if (layer == null) {
             this.collapse();
         }*/
 
@@ -397,9 +398,7 @@ LayersDiagram.prototype = {
             c.remove();
         })
 
-        if (layer == null) {
-            this.fanout();
-        }
+        this.fanout();
     },
 
     dropComponent: function (e) {
@@ -451,9 +450,15 @@ LayersDiagram.prototype = {
 
         if (this.draggeditem.type == "layer") {
             const index = parseInt(this.draggeditem.zindex) - 1;
+
+            console.log(index);
+            console.log(this.layersOrder[index]);
+
             this.layersOrder.splice(index, 1);
 
-            this.removeTopLayer();
+            console.log(this.layersOrder);
+
+            //this.removeTopLayer();
             this.updateAllLayers();
         }
 

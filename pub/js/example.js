@@ -19,8 +19,9 @@ diagram1.addLayer("lettuce");
 diagram1.addLayer("top bun");
 
 diagram1.addComponentDescription("patty", "A very juicy 100% premium beef patty with 20% fat and 80% lean and smoked to perfection then charred on the grill.");
-diagram1.addComponentDescription("tbun", "Pillowy bun sprinkled with sesame seeds.");
+diagram1.addComponentDescription("top bun", "Pillowy bun sprinkled with sesame seeds.");
 diagram1.addComponentDescription("tomato", "Two sweet 1cm thick slices of organic tomatoes from the local farm.");
+diagram1.addComponentDescription("cheese", "A slice of swiss cheese.");
 
 // Non-editable phone diagram
 const diagram2 = new LayersDiagram("phonediagram", "10vw", "30vw", "50vw", null, false);
@@ -36,6 +37,7 @@ diagram2.addLayer("phone screen");
 
 diagram2.addComponentDescription("audio jack", "6.35mm phone audio jack.");
 diagram2.addComponentDescription("battery", "Lithium ion battery that takes 2 hours to charge and can last a whopping 10minutes!");
+diagram2.addComponentDescription("phone screen", "Bullet proof glass.\n\n\n\n\n Just kidding. \n\n\n\n\n\n You shattered it already didn't you? \n\n\n\n\n\n Thanks for giving more money to replace it :)");
 
 diagram2.makeDiagram(document.getElementById("phonenoedit"));
 
@@ -58,5 +60,5 @@ diagram3.addLayer("tomato");
 diagram3.addLayer("top bun");
 
 diagram3.addComponentDescription("patty", "A very juicy 100% premium beef patty with 20% fat and 80% lean and smoked to perfection then charred on the grill.");
-diagram3.addComponentDescription("tbun", "Pillowy bun sprinkled with sesame seeds.");
+diagram3.addComponentDescription("top bun", "Pillowy bun sprinkled with sesame seeds.");
 diagram3.addComponentDescription("tomato", "Two sweet 1cm thick slices of organic tomatoes from the local farm.");

@@ -1,12 +1,18 @@
-#popup {
-    margin: auto;
-    top: 0;
-    left: 0;
+.popup {
+    margin: 0;
+    top: 50%;
+    left: 50%;
     bottom: 0;
     right: 0;
-    width: 40vw;
-    height: 40vw;
+    width: 30vw;
+    height: 30vw;
     position: fixed;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+
+    border: 0.3vw solid black;
+    border-radius: 2vw;
+    background-color: white;
 }
 
 .show {
@@ -23,36 +29,57 @@
     width: calc(100% - 1.5vw);
     margin-top: 0;
     height: calc(100% - 4vw);
-    border: 0.3vw solid black;
-    border-radius: 3vw;
-    background-color: white;
     overflow: hidden;
 }
 
 .popupcontent {
     margin: 0;
-    width: 100%;
-    height: calc(100% - 4vw);
-    padding-top: 2vw;
-    padding-right: 10px;
-    padding-left: 5px;
+    width: calc(100% - 0.5vw);
+    height: calc(100% - 2vw);
+    padding-left: 0.5vw;
     overflow-y: auto;
     overflow-x: hidden;
-    font-size: 2.5vw;
+    font-size: 1.5vw;
 }
 
-#popup .exit {
-    background-color: orangered;
-    width: 4vw;
+.popupheader {
+    width: 100%;
     height: 4vw;
+    border-bottom: 0.1vw solid black;
+}
+
+.popupheadercontent {
+    margin-top: 1vw;
+    margin-left: 1vw;
+    width: calc(100% - 4vw);
+    height: 100%;
+    font-size: 2vw;
+    font-weight: bold;
+    float: left;
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.popupexit {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    width: 3vw;
+    height: 3vw;
     border-radius: 1vw;
-    font-size: 3vw;
     float: right;
 }
 
-#popup .exit:hover {
+.popupexit:hover {
     cursor: pointer;
-    background-color: darkred;
+}
+
+.popupexit:after {
+    display: inline-block;
+    font-size: 3vw;
+    color: darkred;
+    content: "\00d7";
 }
 
 .layerimage {

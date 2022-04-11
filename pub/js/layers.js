@@ -24,17 +24,17 @@ LayersDiagram.prototype = {
         const layersdiagram = document.createElement("div");
         layersdiagram.id = this.id;
         layersdiagram.className = "layersdiagram";
-        layersdiagram.style = `min-height: ${this.sidebarheight}; margin: auto; border-radius: 5%; background-color: white; position: relative;`
+        layersdiagram.style = `min-height: calc(${this.sidebarheight} + 3vw); margin: auto; position: relative;`
 
         const diagram = document.createElement("div");
         diagram.className = "diagrambox";
-        diagram.style = `width: ${this.diagramwidth}; border: 0.5vw solid black; border-radius: 5vw;`;
+        diagram.style = `width: ${this.diagramwidth}; border: 0.5vw solid black; border-radius: 3vw;`;
 
         if (this.allowEdit) {
             layersdiagram.style.width = `calc(${this.diagramwidth} + ${this.sidebarwidth})`;
 
             const sidebar = document.createElement("div");
-            sidebar.style = `width: ${this.sidebarwidth}; max-height: ${this.sidebarheight}; float: left; position: relative; display: flex; flex-direction: column; justify-content: space-between;`
+            sidebar.style = `width: ${this.sidebarwidth}; max-height: ${this.sidebarheight}; margin-top: 3vw; float: left; position: relative; display: flex; flex-direction: column; justify-content: space-between;`
             sidebar.className = "sidebarbox";
 
             const sidebarComponentHolder = document.createElement("div");
@@ -78,7 +78,7 @@ LayersDiagram.prototype = {
         }
 
         // Add popup window
-        const popup = document.createElement("div");
+        /*const popup = document.createElement("div");
         popup.id = "popup";
         popup.className = "hide";
         popup.style = "z-index: 1;";
@@ -98,7 +98,7 @@ LayersDiagram.prototype = {
         popupview.append(popupcontent);
 
         //events
-        exitbutton.onclick = () => this.popupHide();
+        exitbutton.onclick = () => this.popupHide();*/
 
         this.madeDiagram = true;
         this.updateAllSidebar();
@@ -181,25 +181,6 @@ LayersDiagram.prototype = {
         })
     },
 
-    /*addComponentNutritionalInfo: function (componentName, calories=null, protein=null, satFat=null, totFat=null, sugars=null, totalCarb=null, fibre=null, sodium=null, other=null) {
-        // Add nutritional info to a component
-
-        if (componentName in this.components) {
-            this.components[componentName].nutrition = {
-                calories: calories, protein: protein, satFat: satFat, totFat: totFat, sugars: sugars,
-                totalCarb: totalCarb, fibre: fibre, sodium: sodium, other: other
-            };
-        }
-    },
-
-    addComponentPriceInfo: function (componentName, price) {
-        // Add price info to a component
-
-        if (componentName in this.components) {
-            this.components[componentName].price = price;
-        }
-    },*/
-
     addComponentDescription: function (componentName, description) {
         // Add a description to a component
 
@@ -267,42 +248,6 @@ LayersDiagram.prototype = {
         $(`#${this.id} .diagram`).children()[0].remove();
         this.layers -= 1;
     },
-
-    /*collapse: function (ignoreIndex=-1) {
-        // Compress the layers in the diagram to the middle
-
-        let greaterOverlap = 0;
-        let lesserOverlap = 0;
-
-        const mid = Math.ceil(this.layers / 2);
-        const layers = $(`#${this.id} .diagram`).children();
-
-        for (i = mid + 1; i < this.layers; ++i) {
-            let overlapPercent = 0;
-            if (i != ignoreIndex) {
-                overlapPercent = this.components[this.layersOrder[i - 1]].overlap;
-            }
-
-            lesserOverlap += layers[this.layers - i].offsetHeight * overlapPercent / 100.0;
-
-            layers[this.layers - i - 1].style.transform = `translateY(${lesserOverlap}px)`;
-        }
-
-        for (i = mid - 1; i > 0; --i) {
-            let overlapPercent = 0;
-            if (i != ignoreIndex) {
-                overlapPercent = this.components[this.layersOrder[i]].overlap;
-            }
-
-            greaterOverlap -= layers[this.layers - i - 1].offsetHeight * overlapPercent / 100.0;
-
-            layers[this.layers - i - 1].style.transform = `translateY(${greaterOverlap}px)`;
-        }
-
-        if (this.layers > 1) {
-            layers[this.layers - 1].style.transform = `translateY(${greaterOverlap}px)`
-        }
-    },*/
 
     collapse: function (ignoreIndex = -1) {
         // Compress the layers in the diagram to the top
@@ -500,33 +445,110 @@ LayersDiagram.prototype = {
     },
 
     popupShow: function (e) {
+        const popup = document.createElement("div");
+        //popup.id = "popup";
+        popup.className = "popup";
+        $("body").append(popup);
+
+        const popupheader = document.createElement("div");
+        popupheader.className = "popupheader";
+        popup.append(popupheader);
+
+        const popupview = document.createElement("div");
+        popupview.className = "popupview";
+        popup.append(popupview);
+
+        const popupcontent = document.createElement("div");
+        popupcontent.className = "popupcontent";
+        popupview.append(popupcontent);
+
+        const popupheadercontent = document.createElement("div");
+        popupheadercontent.className = "popupheadercontent";
+        popupheader.append(popupheadercontent);
+
+        const exitbutton = document.createElement("button");
+        exitbutton.className = "popupexit";
+        popupheader.append(exitbutton);
+
+        //events
+        exitbutton.onclick = (ev) => this.popupHide(ev);
+        popup.draggable = true;
+        popup.ondragstart = () => { return false; };
+        popup.onmousedown = (e) => { this.popupdragstart(e); };
+
         let obj = e.target;
         if ((obj.className != "layer" && obj.parentElement.className == "layer") || (obj.className != "sidebarcomponent" && obj.parentElement.className == "sidebarcomponent")) {
             obj = obj.parentElement;
         }
 
         if (obj.className == "layer") {
-            document.getElementById("popup").className = "show";
+            //popup.className = "show";
+            popupheadercontent.innerText = this.layersOrder[obj.style.zIndex - 1];
 
             if (this.components[this.layersOrder[obj.style.zIndex - 1]].description != null && this.components[this.layersOrder[obj.style.zIndex - 1]].description != "") {
-                $("#popup .popupcontent")[0].innerText = this.components[this.layersOrder[obj.style.zIndex - 1]].description;
+                popupcontent.innerText = this.components[this.layersOrder[obj.style.zIndex - 1]].description;
             }
             else {
-                $("#popup .popupcontent")[0].innerText = "There is no description.";
+                popupcontent.innerText = "There is no description.";
             }
 
         } else if (obj.className == "sidebarcomponent") {
-            document.getElementById("popup").className = "show";
+            //popup.className = "show";
+            popupheadercontent.innerText = obj.id;
 
             if (this.components[obj.id].description != null && this.components[obj.id].description != "") {
-                $("#popup .popupcontent")[0].innerText = this.components[obj.id].description;
+                popupcontent.innerText = this.components[obj.id].description;
             } else {
-                $("#popup .popupcontent")[0].innerText = "There is no description.";
+                popupcontent.innerText = "There is no description.";
             }
         }
     },
 
-    popupHide: function () {
-        document.getElementById("popup").className = "hide";
-    }
+    popupHide: function (e) {
+        //document.getElementById("popup").className = "hide";
+        let p = e.target;
+        if (p.className != "popup") {
+            p = p.closest(".popup");
+        }
+
+        if (p == null) {
+            console.log("Could not find popup window to close.");
+            return;
+        }
+
+        p.remove();
+    },
+
+    popupdragstart: function (e) {
+        // Drag popup around the screen
+        let p = e.target;
+        if (p.className != "popup") {
+            p = p.closest(".popup");
+        }
+
+        if (p == null) {
+            return;
+        }
+
+        let currX = e.clientX;
+        let currY = e.clientY;
+
+        function popupmove(x, y) {
+            p.style.left = (p.offsetLeft - x) + 'px';
+            p.style.top = (p.offsetTop - y) + 'px';
+        }
+
+        function popupdrag(ev) {
+            popupmove(currX - ev.clientX, currY - ev.clientY);
+            currX = ev.clientX;
+            currY = ev.clientY;
+        }
+
+        document.addEventListener('mousemove', popupdrag);
+
+        document.onmouseup = (ev) => {
+            document.removeEventListener('mousemove', popupdrag);
+            document.onmouseup = null;
+        }
+    },
 }

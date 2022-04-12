@@ -15,10 +15,6 @@ app.listen(port, () => {
 	log(`Listening on port ${port}...`)
 })
 
-app.get('/', (req, res) => {
-	res.send('<h1>Go to https://layers-js-library.herokuapp.com/example.html</h1>')
-})
-
 // Error codes
 app.get('/problem', (req, res) => {
 	res.status(500).send('There was a problem on the server')

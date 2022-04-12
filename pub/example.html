@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Layers Example Usage</title>
     <link rel="stylesheet" type="text/css" href="layers_style.css">
+    <link rel="stylesheet" type="text/css" href="page.css">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script defer type="text/javascript" src="js/layers.js"></script>
@@ -11,29 +12,67 @@
 </head>
 <body>
 
-    <div style="margin: 0; width: 100%; height: 5vw; background-color: yellow;">
-        <h1 style="text-align: center;">Layers.js sample diagrams</h1>
+    <div class="header">
+        <a href="/" class="libraryname">Layers.js</a>
+
+        <div class="tabsholder">
+            <a href="/showcase.html" class="tab">Showcase</a>
+            <a class="currtab">Try it</a>
+            <a href="/api.html" class="tab">Documentation</a>
+            <a class="tab">Github</a>
+        </div>
     </div>
 
-    <div style="text-align: center">Below is an example of a diagram that is created by the developer and CANNOT be edited by the user.</div>
+    <div class="content">
+        <h2 class="sectionheader">Vertical Layered Diagram Examples</h2>
 
-    <div id="phonenoedit"></div>
+        <div id="selectform">
+            <div class="formitem">
+                Which example to display:
+                <select id="sampletype">
+                    <option>Hamburger Sample</option>
+                    <option>Phone Sample</option>
+                </select>
+            </div>
 
-    <br />
-    <br />
+            <div class="formitem">
+                Allow user to modify diagram:
+                <select id="allowedit">
+                    <option>yes</option>
+                    <option>no</option>
+                </select>
+            </div>
 
-    <div style="text-align: center">Below is an example of a diagram that CAN be modified by the user. This diagram has fixed height and will scroll if overflows.</div>
-    <div style="text-align: center;">Add layers to the sandwhich by dragging in components from the sidebar, and remove them by dragging layers to the sidebar. Drag layers to reorder them. Click the components (sidebar or diagram) to view more info.</div>
+            <div class="formitem">
+                Limit diagram height:
+                <select id="limitheight">
+                    <option>no limit</option>
+                    <option>40vw</option>
+                    <option>60vw</option>
+                    <option>80vw</option>
+                </select>
+            </div>
 
-    <div id="burgerflex"></div>
+            <div class="formitem">
+                Limit number of layers:
+                <select id="limitlayers">
+                    <option>no limit</option>
+                    <option>5</option>
+                    <option>10</option>
+                    <option>20</option>
+                </select>
+            </div>
 
-    <br />
-    <br />
+            <div class="formitem">
+                <button class="formbutton" onclick="loadverticalexample()">Generate Example</button>
+            </div>
+        </div>
 
-    <div style="text-align: center;">Below is an example of a diagram that CAN be modified by the user. This diagram will grow as more layers are added. This diagram is limited to 10 layers max.</div>
-    <div style="text-align: center;">Add layers to the sandwhich by dragging in components from the sidebar, and remove them by dragging layers to the sidebar. Drag layers to reorder them. Click the components (sidebar or diagram) to view more info.</div>
+        <br />
 
-    <div id="burgeredit"></div>
+        <div id="verticaldiagramspot"></div>
+
+    </div>
 
 </body>
 </html>

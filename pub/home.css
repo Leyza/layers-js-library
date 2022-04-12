@@ -1,0 +1,58 @@
+body {
+    background: linear-gradient(to left bottom, blue, black);
+    background-attachment: fixed;
+}
+
+.titlebox {
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    transform: translate(-50%, -70%);
+}
+
+.title {
+    margin: 0;
+    margin-bottom: 1vw;
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 10vw;
+    text-align: center;
+}
+
+.description {
+    color: white;
+    font-size: 1.3vw;
+    text-align: center;
+}
+
+.buttonholder {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbutton {
+    text-decoration: none;
+    padding: 0.5vw 1vw 0.5vw 1vw;
+    border: 0.2vw solid white;
+    border-radius: 1vw;
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    font-size: 2vw;
+    text-align: center;
+}
+
+.navbutton:hover {
+    cursor: pointer;
+    background: linear-gradient(to left bottom, lightblue, white);
+    color: darkblue;
+}
+
+.navbutton:not(:last-child) {
+    margin-right: 1vw;
+}

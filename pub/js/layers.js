@@ -3,7 +3,7 @@
 
 (function (global, document, $) { 
 
-    function LayersDiagram(id, sidebarwidth, sidebarheight, diagramwidth, diagramheight = null, allowEdit = true, layerlimit = Infinity,) {
+    function LayersDiagram(id, sidebarwidth, sidebarheight, diagramwidth, diagramheight = null, allowEdit = true, layerlimit = Infinity) {
         this.id = id;
         this.diagramwidth = diagramwidth;
         this.diagramheight = diagramheight;

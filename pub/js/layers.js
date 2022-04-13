@@ -82,18 +82,27 @@
             }
 
             this.madeDiagram = true;
-            this.updateAllSidebar();
+
+            if (this.allowEdit) {
+                this.updateAllSidebar();
+            }
             this.updateAllLayers();
         },
 
-        addComponent: function (putInSidebar, name, image, overlap = 50, start = 0) {
+        addComponent: function (putInSidebar, name, image, overlap = 50, start = 0, size=100, alignment="center") {
             // Create a new component
             let update = false;
             if (name in this.components) {
                 update = true;
             }
 
-            this.components[name] = { image: image, description: null, overlap: overlap, start: start };
+            const align = (["center", "left", "right"].includes(alignment)) ? alignment : "center";
+            this.components[name] = { image: image, description: null, overlap: overlap, start: start, size: size, alignment: align };
+
+            if (name == "audio jack") {
+                console.log(this.components["audio jack"]);
+            }
+
             if (putInSidebar) {
                 if (!update) {
                     this.sidebar.push(name);
@@ -403,6 +412,8 @@
         },
 
         updateAllLayers: function () {
+            // Update all diagram layers according to layersOrder list
+
             if (this.layers > this.layersOrder.length) {
                 const iter = this.layers - this.layersOrder.length;
                 for (let i = 0; i < iter; ++i) {
@@ -426,6 +437,17 @@
             $(`#${this.id} .diagram`).children().each((i, c) => {
                 if (this.layersOrder[this.layers - index - 1] != null) {
                     c.children[0].src = this.components[this.layersOrder[this.layers - index - 1]].image;
+                    c.children[0].style.width = this.components[this.layersOrder[this.layers - index - 1]].size + '%';
+
+                    const align = this.components[this.layersOrder[this.layers - index - 1]].alignment;
+                    if (align == "center") {
+                        c.children[0].style.marginLeft = `calc((100% - ${this.components[this.layersOrder[this.layers - index - 1]].size}%) / 2)`;
+                    } else if (align == "left") {
+                        c.children[0].style.marginLeft = 0;
+                    } else {
+                        c.children[0].style.marginLeft = `calc(100% - ${this.components[this.layersOrder[this.layers - index - 1]].size}%)`;
+                    }
+
                 } else {
                     c.children[0].src = this.components["_dummy"].image;
                     c.children[0].style.opacity = 0;

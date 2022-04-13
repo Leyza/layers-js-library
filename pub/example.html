@@ -17,26 +17,26 @@
 
         <div class="tabsholder">
             <a href="/showcase.html" class="tab">Showcase</a>
-            <a class="currtab">Try it</a>
+            <a class="currtab">Examples</a>
             <a href="/api.html" class="tab">Documentation</a>
             <a class="tab">Github</a>
         </div>
     </div>
 
     <div class="content">
-        <h2 class="sectionheader">Vertical Layered Diagram Examples</h2>
+        <h2 class="sectionheader">Layered Diagram Examples</h2>
 
         <div id="selectform">
             <div class="formitem">
-                Which example to display:
+                <span class="formtext">Which example to display:</span>
                 <select id="sampletype">
-                    <option>Hamburger Sample</option>
-                    <option>Phone Sample</option>
+                    <option>Hamburger</option>
+                    <option>Phone</option>
                 </select>
             </div>
 
             <div class="formitem">
-                Allow user to modify diagram:
+                <span class="formtext">Allow user to modify diagram:</span>
                 <select id="allowedit">
                     <option>yes</option>
                     <option>no</option>
@@ -44,7 +44,7 @@
             </div>
 
             <div class="formitem">
-                Limit diagram height:
+                <span class="formtext">Limit diagram height:</span>
                 <select id="limitheight">
                     <option>no limit</option>
                     <option>40vw</option>
@@ -54,7 +54,7 @@
             </div>
 
             <div class="formitem">
-                Limit number of layers:
+                <span class="formtext">Limit number of layers:</span>
                 <select id="limitlayers">
                     <option>no limit</option>
                     <option>5</option>
@@ -70,7 +70,18 @@
 
         <br />
 
+        <div id="verticaldiagramdescription"></div>
         <div id="verticaldiagramspot"></div>
+        <div id="verticalsamplecode">
+            <h3 class="smallsectionheader">HTML</h3>
+            <pre>
+                <code id="verticalsamplehtml"></code>
+            </pre>
+            <h3 class="smallsectionheader">JS</h3>
+            <pre>
+            <code id="verticalsamplejs"></code>
+            </pre>
+        </div>
 
     </div>
 

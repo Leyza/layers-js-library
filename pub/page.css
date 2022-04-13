@@ -70,6 +70,12 @@ body {
     font-size: 2vw;
 }
 
+.smallsectionheader {
+    color: darkblue;
+    font-size: 1.5vw;
+    margin: 0;
+}
+
 #selectform {
     display: flex;
     flex-direction: row;
@@ -85,6 +91,8 @@ body {
     color: white;
     border: 0.1vw solid black;
     border-radius: 0.5vw;
+    height: 2vw;
+    font-size: 1.3vw;
 }
 
 .formbutton:hover {
@@ -92,4 +100,31 @@ body {
     color: white;
     border: 0.1vw solid black;
     border-radius: 0.5vw;
+}
+
+.formtext {
+    color: darkblue;
+}
+
+#verticaldiagramdescription {
+    margin-bottom: 1vw;
+}
+
+pre {
+    margin: 0;
+}
+
+pre code {
+    background-color: #eee;
+    border: 1px solid #999;
+    display: block;
+    padding: 20px;
+}
+
+.keyword {
+    color: deepskyblue;
+}
+
+.string {
+    color: darkorange;
 }

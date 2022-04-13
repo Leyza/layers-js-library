@@ -175,3 +175,37 @@
 ::-webkit-scrollbar-thumb:active {
     background: rgba(0,0,0,0.5);
 }
+
+.alert {
+    margin: auto;
+    padding-top: 1vw;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    z-index: 1000;
+    width: 55vw;
+    height: 6vw;
+    background-color: white;
+    border: 0.2vw solid black;
+    border-radius: 1vw;
+    font-size: 2vw;
+    color: red;
+    text-align: center;
+}
+
+.okaybutton {
+    margin-top: 1vw;
+    height: 2vw;
+    width: 5vw;
+    background-color: rgb(160, 255, 203);
+    border: 0.1vw solid black;
+    border-radius: 1vw;
+    font-size: 1.2vw;
+}
+
+.okaybutton:hover {
+    cursor: pointer;
+    background-color: rgb(54, 255, 140);
+}

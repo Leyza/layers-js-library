@@ -14,7 +14,8 @@
 
         this.layers = 0;
         this.layersOrder = [null];
-        this.components = { "_dummy": { image: "images/bottom_bun.png", description: null, overlap: 0 }};
+        this.dummy = { image: "images/bottom_bun.png", description: null, overlap: 0, start: 0, size: 100, alignment: "center" };
+        this.components = {};
         this.allowEdit = allowEdit;
         this.sidebarComponents = 0;
         this.sidebar = [];
@@ -98,10 +99,6 @@
 
             const align = (["center", "left", "right"].includes(alignment)) ? alignment : "center";
             this.components[name] = { image: image, description: null, overlap: overlap, start: start, size: size, alignment: align };
-
-            if (name == "audio jack") {
-                console.log(this.components["audio jack"]);
-            }
 
             if (putInSidebar) {
                 if (!update) {
@@ -188,6 +185,33 @@
 
             if (componentName in this.components && this.layersOrder.length < this.layerlimit) {
                 this.layersOrder.push(componentName);
+            } else if (!(componentName in this.components)) {
+                console.log("Invalid component name.");
+            } else {
+                console.log("Maximum number of layers reached!");
+            }
+
+            if (this.madeDiagram) {
+                this.updateAllLayers();
+            }
+        },
+
+        setLayers: function (componentList) {
+            // Overwrite and set all layers
+
+            if (Array.isArray(componentList) && componentList.length <= this.layerlimit - 1) {
+                const valid = componentList.every(e => e in this.components);
+                if (!valid) {
+                    console.log("setLayers contains an invalid component name.");
+                    return;
+                }
+
+                this.layersOrder = componentList;
+                this.layersOrder.unshift(null);
+            } else if (!(Array.isArray(componentList))) {
+                console.log("Argument requires a list of component names.");
+            } else {
+                console.log("Maximum number of layers exceeded!");
             }
 
             if (this.madeDiagram) {
@@ -349,7 +373,21 @@
 
             if (this.draggeditem.type == "new") {
                 if (this.layersOrder.length >= this.layerlimit) {
-                    alert("Maximum number of allowed layers in the diagram reached!");
+                    const alertdiv = document.createElement("div");
+                    alertdiv.className = "alert";
+                    alertdiv.innerText = "Maximum number of allowed layers in the diagram reached!";
+
+                    alertdiv.append(document.createElement("br"));
+
+                    const okaybutton = document.createElement("button");
+                    okaybutton.className = "okaybutton";
+                    okaybutton.innerText = "Okay";
+                    alertdiv.append(okaybutton);
+
+                    $('body').append(alertdiv);
+
+                    // Alert events
+                    okaybutton.onclick = (e) => { e.target.parentElement.remove() };
 
                 } else {
                     const index = parseInt(droploc.parentElement.style.zIndex);
@@ -395,12 +433,7 @@
             if (this.draggeditem.type == "layer") {
                 const index = parseInt(this.draggeditem.zindex) - 1;
 
-                console.log(index);
-                console.log(this.layersOrder[index]);
-
                 this.layersOrder.splice(index, 1);
-
-                console.log(this.layersOrder);
 
                 //this.removeTopLayer();
                 this.updateAllLayers();
@@ -419,7 +452,6 @@
                 for (let i = 0; i < iter; ++i) {
                     this.removeTopLayer();
                 }
-                console.log(this.layers == this.layersOrder.length);
 
             } else if (this.layers < this.layersOrder.length) {
                 const iter = this.layersOrder.length - this.layers;
@@ -430,7 +462,6 @@
                         this.addDiagramLayer(false);
                     }
                 }
-                console.log(this.layers == this.layersOrder.length);
             }
 
             let index = 0;
@@ -449,7 +480,7 @@
                     }
 
                 } else {
-                    c.children[0].src = this.components["_dummy"].image;
+                    c.children[0].src = this.dummy.image;
                     c.children[0].style.opacity = 0;
                 }
                 index += 1;
@@ -563,6 +594,18 @@
                 document.onmouseup = null;
             }
         },
+
+        getAllLayers: function () {
+            return this.layersOrder.slice(1);
+        },
+
+        getAllComponents: function () {
+            return this.components;
+        },
+
+        getAllSidebarComponents: function () {
+            return this.sidebar;
+        }
     }
 
 

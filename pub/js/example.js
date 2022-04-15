@@ -12,12 +12,12 @@ function generateBurgerComponents(diagram) {
 
     diagram.setLayers(["bottom bun", "patty", "lettuce", "tomato", "top bun"]);
 
-    diagram.addComponentDescription("patty", "<img style='width: 90%;' src='images/patty.png'></img> <br/> 100% premium beef patty smoked to perfection then charred on the grill.");
+    diagram.addComponentDescription("patty", "100% premium beef patty smoked to perfection then charred on the grill. <img style='width: 90%;' src='images/ground_beef_nutrition.jfif'></img>");
     diagram.addComponentDescription("top bun", "Soft bun sprinkled with sesame seeds and freshly baked every morning.");
     diagram.addComponentDescription("bottom bun", "Soft bun freshly baked every morning.");
-    diagram.addComponentDescription("tomato", "Two sweet 1cm thick slices of organic tomatoes from the local farm.");
+    diagram.addComponentDescription("tomato", "<img style='width: 90%;' src='images/whole_tomatoes.jpg'></img> Two sweet 1cm thick slices of organic tomatoes from the local farm.");
     diagram.addComponentDescription("lettuce", "Fresh leaves of lettuce.");
-    diagram.addComponentDescription("cheese", "A slice of melted swiss cheese.");
+    diagram.addComponentDescription("cheese", "A slice of swiss cheese. <img style='width: 100%;' src='images/swiss_cheese_nutrition.jpg'></img>");
     diagram.addComponentDescription("onions", "A few slices of fresh red onions.");
 
     document.getElementById("verticalsamplejs").innerHTML += `
@@ -31,12 +31,12 @@ function generateBurgerComponents(diagram) {
 
         diagram.setLayers([<span class="string">"bottom bun"</span>, <span class="string">"patty"</span>, <span class="string">"lettuce"</span>, <span class="string">"tomato"</span>, <span class="string">"top bun"</span>]);
 
-        diagram.addComponentDescription(<span class="string">"patty"</span>, <span class="string">"100% premium beef patty smoked to perfection then charred on the grill."</span>);
+        diagram.addComponentDescription(<span class="string">"patty"</span>, <span class="string">"100% premium beef patty smoked to perfection then charred on the grill. &lt;img style='width: 90%;' src='images/ground_beef_nutrition.jfif'&gt;&lt;/img&gt;"</span>);
         diagram.addComponentDescription(<span class="string">"top bun"</span>, <span class="string">"Soft bun sprinkled with sesame seeds and freshly baked every morning."</span>);
         diagram.addComponentDescription(<span class="string">"bottom bun"</span>, <span class="string">"Soft bun freshly baked every morning."</span>);
-        diagram.addComponentDescription(<span class="string">"tomato"</span>, <span class="string">"Two sweet 1cm thick slices of organic tomatoes from the local farm."</span>);
+        diagram.addComponentDescription(<span class="string">"tomato"</span>, <span class="string">"&lt;img style='width: 90%;' src='images/whole_tomatoes.jpg'&gt;&lt;/img&gt; Two sweet 1cm thick slices of organic tomatoes from the local farm."</span>);
         diagram.addComponentDescription(<span class="string">"lettuce"</span>, <span class="string">"Fresh leaves of lettuce."</span>);
-        diagram.addComponentDescription(<span class="string">"cheese"</span>, <span class="string">"A slice of melted swiss cheese."</span>);
+        diagram.addComponentDescription(<span class="string">"cheese"</span>, <span class="string">"A slice of swiss cheese. &lt;img style='width: 100%;' src='images/swiss_cheese_nutrition.jpg'&gt;&lt;/img&gt;"</span>);
         diagram.addComponentDescription(<span class="string">"onions"</span>, <span class="string">"A few slices of fresh red onions."</span>);
     `
 }
@@ -91,15 +91,6 @@ function generateFlowerComponents(diagram, orientation) {
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"red roses"</span>, <span class="string">"images/red_roses.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>);    
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"sunflower"</span>, <span class="string">"images/sunflower.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">80</span>, <span class="string">"left"</span>);
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"small tree"</span>, <span class="string">"images/small_tree.png"</span>, <span class="keyword">100</span>);
-        
-        diagram.addLayer(<span class="string">"ceramic flowerpot"</span>);
-
-        diagram.addComponentDescription(<span class="string">"ceramic flowerpot"</span>, <span class="string">"Hand crafted clay baked flower pot."</span>);
-        diagram.addComponentDescription(<span class="string">"pink flowers"</span>, <span class="string">"Fresh bundle of sweet scented pink flowers."</span>);
-        diagram.addComponentDescription(<span class="string">"pink tulip"</span>, <span class="string">"A single pink tulip."</span>);
-        diagram.addComponentDescription(<span class="string">"red roses"</span>, <span class="string">"A bundle of beautiful red roses. Perfect as a gift."</span>);
-        diagram.addComponentDescription(<span class="string">"sunflower"</span>, <span class="string">"Vibrant yellow young sunflower."</span>);
-        diagram.addComponentDescription(<span class="string">"small tree"</span>, <span class="string">"Lushious potted tree plant."</span>);
     `
 
     } else {
@@ -117,26 +108,28 @@ function generateFlowerComponents(diagram, orientation) {
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"red roses"</span>, <span class="string">"images/red_roses.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">65</span>, <span class="string">"top"</span>);    
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"sunflower"</span>, <span class="string">"images/sunflower.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>, <span class="keyword">13</span>);
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"small tree"</span>, <span class="string">"images/small_tree.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">62</span>, <span class="string">"top"</span>);
-
-        diagram.addLayer(<span class="string">"ceramic flowerpot"</span>);
-
-        diagram.addComponentDescription(<span class="string">"ceramic flowerpot"</span>, <span class="string">"Hand crafted clay baked flower pot."</span>);
-        diagram.addComponentDescription(<span class="string">"pink flowers"</span>, <span class="string">"Fresh bundle of sweet scented pink flowers."</span>);
-        diagram.addComponentDescription(<span class="string">"pink tulip"</span>, <span class="string">"A single pink tulip."</span>);
-        diagram.addComponentDescription(<span class="string">"red roses"</span>, <span class="string">"A bundle of beautiful red roses. Perfect as a gift."</span>);
-        diagram.addComponentDescription(<span class="string">"sunflower"</span>, <span class="string">"Vibrant yellow young sunflower."</span>);
-        diagram.addComponentDescription(<span class="string">"small tree"</span>, <span class="string">"Lushious potted tree plant."</span>);
     `
     }
 
     diagram.addLayer("ceramic flowerpot");
 
-    diagram.addComponentDescription("ceramic flowerpot", "Hand crafted clay baked flower pot.");
+    diagram.addComponentDescription("ceramic flowerpot", "<img style='width: 90%;' src='images/making_clay_pot.jpg'></img> Hand crafted clay baked flower pot.");
     diagram.addComponentDescription("pink flowers", "Fresh bundle of sweet scented pink flowers.");
     diagram.addComponentDescription("pink tulip", "A single pink tulip.");
     diagram.addComponentDescription("red roses","A bundle of beautiful red roses. Perfect as a gift.");
-    diagram.addComponentDescription("sunflower", "Vibrant yellow young sunflower.");
+    diagram.addComponentDescription("sunflower", "<img style='width: 90%;' src='images/sunflowers.jpg'></img> Vibrant yellow young sunflower.");
     diagram.addComponentDescription("small tree", "Lushious potted tree plant.");
+
+    document.getElementById(orientation + "samplejs").innerHTML += `
+        diagram.addLayer(<span class="string">"ceramic flowerpot"</span>);
+
+        diagram.addComponentDescription(<span class="string">"ceramic flowerpot"</span>, <span class="string">"&lt;img style='width: 90%;' src='images/making_clay_pot.jpg'&gt;&lt;/img&gt; Hand crafted clay baked flower pot."</span>);
+        diagram.addComponentDescription(<span class="string">"pink flowers"</span>, <span class="string">"Fresh bundle of sweet scented pink flowers."</span>);
+        diagram.addComponentDescription(<span class="string">"pink tulip"</span>, <span class="string">"A single pink tulip."</span>);
+        diagram.addComponentDescription(<span class="string">"red roses"</span>, <span class="string">"A bundle of beautiful red roses. Perfect as a gift."</span>);
+        diagram.addComponentDescription(<span class="string">"sunflower"</span>, <span class="string">"&lt;img style='width: 90%;' src='images/sunflowers.jpg'&gt;&lt;/img&gt; Vibrant yellow young sunflower."</span>);
+        diagram.addComponentDescription(<span class="string">"small tree"</span>, <span class="string">"Lushious potted tree plant."</span>);
+    `
 
 }
 

@@ -3,8 +3,10 @@
 
 (function (global, document, $) { 
 
-    function LayersDiagram(id, sidebarwidth, sidebarheight, diagramwidth, diagramheight = null, allowEdit = true, layerlimit = Infinity) {
+    function LayersDiagram(id, sidebarwidth, sidebarheight, diagramwidth = null, diagramheight = null, orientation = "vertical", allowEdit = true, layerlimit = Infinity) {
+
         this.id = id;
+        this.orientation = (orientation == "horizontal") ? "horizontal" : "vertical";
         this.diagramwidth = diagramwidth;
         this.diagramheight = diagramheight;
         this.sidebarwidth = sidebarwidth;
@@ -14,12 +16,21 @@
 
         this.layers = 0;
         this.layersOrder = [null];
-        this.dummy = { image: "images/bottom_bun.png", description: null, overlap: 0, start: 0, size: 100, alignment: "center" };
+        this.dummy = {
+            "vertical": { image: "images/bottom_bun.png", description: null, overlap: 0, start: 0, size: 100, alignment: "center" },
+            "horizontal": { image: "images/desktop_ram.png", description: null, overlap: 0, start: 0, size: 100, alignment: "center" }
+        };
         this.components = {};
         this.allowEdit = allowEdit;
         this.sidebarComponents = 0;
         this.sidebar = [];
         this.draggeditem = null;
+
+        if (this.orientation === "vertical" && this.diagramwidth === null) {
+            throw "Diagram Creation Error: Vertical diagrams must have a specified set width!";
+        } else if (this.orientation === "horizontal" && this.diagramheight === null) {
+            throw "Diagram Creation Error: Horizontal diagrams must have a specified set height!";
+        }
     }
 
     LayersDiagram.prototype = {
@@ -29,14 +40,16 @@
             const layersdiagram = document.createElement("div");
             layersdiagram.id = this.id;
             layersdiagram.className = "layersdiagram";
-            layersdiagram.style = `min-height: calc(${this.sidebarheight} + 3vw); margin: auto; position: relative;`
+            layersdiagram.style = `margin: auto; position: relative;`
 
             const diagram = document.createElement("div");
             diagram.className = "diagrambox";
-            diagram.style = `width: ${this.diagramwidth}; border: 0.5vw solid black; border-radius: 3vw;`;
+            diagram.style = `border: 0.5vw solid black; border-radius: 3vw; position: relative;`;
 
             if (this.allowEdit) {
-                layersdiagram.style.width = `calc(${this.diagramwidth} + ${this.sidebarwidth})`;
+                if (this.diagramwidth != null) {
+                    layersdiagram.style.width = `calc(${this.diagramwidth} + ${this.sidebarwidth})`;
+                }
 
                 const sidebar = document.createElement("div");
                 sidebar.style = `width: ${this.sidebarwidth}; max-height: ${this.sidebarheight}; margin-top: 3vw; float: left; position: relative; display: flex; flex-direction: column; justify-content: space-between;`
@@ -52,19 +65,45 @@
                 diagram.style.marginLeft = this.sidebarwidth;
             }
             else {
-                layersdiagram.style.width = this.diagramwidth;
+                if (this.diagramwidth != null) {
+                    layersdiagram.style.width = this.diagramwidth;
+                }
             }
 
             const componentHolder = document.createElement("div");
-            componentHolder.style = `width: 90%; margin: 5%; position: relative; transform: translateY(0%);`;
+            componentHolder.style = `position: relative; box-sizing: border-box;`;
             componentHolder.className = "diagram";
 
-            if (this.diagramheight != null) {
-                diagram.style.height = this.diagramheight;
-                componentHolder.style.height = "95%";
-                componentHolder.style.width = "calc(90% + 10px)";
-                componentHolder.style.marginRight = "calc(5% - 10px)";
-                componentHolder.style.overflow = "auto";
+            if (this.orientation == "vertical") {
+                componentHolder.style.margin = "5%";
+                componentHolder.style.overflowY = "auto";
+                componentHolder.style.overflowX = "hidden";
+                componentHolder.style.display = "flex";
+                componentHolder.style.flexDirection = "column";
+
+                if (this.diagramheight != null) {
+                    layersdiagram.style.height = this.diagramheight;
+                    diagram.style.height = `calc(${this.diagramheight} - 1vw)`;
+                    componentHolder.style.height = "95%";
+                    componentHolder.style.width = "calc(90% + 10px)";
+                    componentHolder.style.marginRight = "calc(5% - 10px)";
+                }
+
+            } else {
+                componentHolder.style.margin = "2%";
+                componentHolder.style.overflowX = "auto";
+                componentHolder.style.overflowY = "hidden";
+                componentHolder.style.display = "flex";
+                componentHolder.style.flexDirection = "row";
+
+                layersdiagram.style.height = this.diagramheight;
+                diagram.style.height = `calc(${this.diagramheight} - 1vw)`;
+                componentHolder.style.height = "calc(90% + 10px)";
+
+                if (this.diagramwidth != null) {
+                    diagram.style.width = `calc(${this.diagramwidth} - 1vw)`;
+                    componentHolder.style.width = "90%";
+                }
             }
 
             layersdiagram.appendChild(diagram);
@@ -97,7 +136,7 @@
                 update = true;
             }
 
-            const align = (["center", "left", "right"].includes(alignment)) ? alignment : "center";
+            const align = (["center", "left", "right", "top", "bottom"].includes(alignment) || !isNaN(alignment)) ? alignment : "center";
             this.components[name] = { image: image, description: null, overlap: overlap, start: start, size: size, alignment: align };
 
             if (putInSidebar) {
@@ -132,7 +171,7 @@
                 sidebarcomponent.ondrop = (e) => { this.dropComponentInSidebar(e); this.draggeditem = null; };
 
                 const image = document.createElement("img");
-                image.style = `padding-top: 1vw; padding-bottom: 1vw; margin: auto; max-width: 95%; display: block; position: relative;`;
+                image.style = `padding-top: 1vw; padding-bottom: 1vw; margin: auto; max-width: 95%; max-height: ${this.sidebarwidth}; display: block; position: relative;`;
                 image.draggable = false;
 
                 const tooltip = document.createElement("span");
@@ -186,9 +225,9 @@
             if (componentName in this.components && this.layersOrder.length < this.layerlimit) {
                 this.layersOrder.push(componentName);
             } else if (!(componentName in this.components)) {
-                console.log("Invalid component name.");
+                throw "Invalid component name.";
             } else {
-                console.log("Maximum number of layers reached!");
+                throw "Maximum number of layers reached!";
             }
 
             if (this.madeDiagram) {
@@ -202,16 +241,16 @@
             if (Array.isArray(componentList) && componentList.length <= this.layerlimit - 1) {
                 const valid = componentList.every(e => e in this.components);
                 if (!valid) {
-                    console.log("setLayers contains an invalid component name.");
+                    throw "setLayers contains an invalid component name.";
                     return;
                 }
 
                 this.layersOrder = componentList;
                 this.layersOrder.unshift(null);
             } else if (!(Array.isArray(componentList))) {
-                console.log("Argument requires a list of component names.");
+                throw "TypeError: Argument requires a list of component names.";
             } else {
-                console.log("Maximum number of layers exceeded!");
+                throw "Maximum number of layers exceeded!";
             }
 
             if (this.madeDiagram) {
@@ -237,20 +276,26 @@
 
             const image = document.createElement("img");
             image.className = "layerimage";
-            if (this.diagramheight == null) {
-                image.style = `width: 100%;`;
+            if (this.orientation == "vertical") {
+                if (this.diagramheight == null) {
+                    image.style = `width: 100%;`;
+                } else {
+                    image.style = `width: calc(100% - 10px)`;
+                }
             } else {
-                image.style = `width: calc(100% - 10px)`;
+                image.style.height = "100%";
             }
 
             //events
             if (this.allowEdit) {
                 image.ondragenter = (e) => { this.dragComponent(e); };
-                image.ondragleave = (e) => { this.dragLeaveComponent(); };
+                image.ondragleave = (e) => { this.dragLeaveComponent(e); };
                 image.addEventListener("dragover", function (e) { e.preventDefault() });
                 image.ondrop = (e) => { this.dropComponent(e); this.draggeditem = null; };
             }
-            image.onclick = (e) => { this.popupShow(e) };
+            if (!isDummy) {
+                image.onclick = (e) => { this.popupShow(e) };
+            }
             image.draggable = false;
 
             newlayer.append(image);
@@ -274,22 +319,59 @@
 
             const layers = $(`#${this.id} .diagram`).children();
 
-            for (let i = this.layers - 2; i > 0; --i) {
-                let overlapPercent = 0;
-                if (i != ignoreIndex) {
-                    overlapPercent = this.components[this.layersOrder[i]].overlap;
+            if (this.orientation == "vertical") {
+                let tallest = 0;
+
+                for (let i = this.layers - 2; i > 0; --i) {
+                    let overlapPercent = 0;
+                    if (i != ignoreIndex) {
+                        overlapPercent = this.components[this.layersOrder[i]].overlap;
+                    }
+
+                    if (layers[this.layers - i - 1].offsetHeight > tallest) {
+                        tallest = layers[this.layers - i - 1].offsetHeight;
+                    }
+
+                    overlap -= layers[this.layers - i - 1].offsetHeight * overlapPercent / 100.0;
+                    overlap -= layers[this.layers - i - 2].offsetHeight * this.components[this.layersOrder[i + 1]].start / 100.0;
+
+                    layers[this.layers - i - 1].style.transform = `translateY(${overlap}px)`;
                 }
 
-                overlap -= layers[this.layers - i - 1].offsetHeight * overlapPercent / 100.0;
-                overlap -= layers[this.layers - i - 2].offsetHeight * this.components[this.layersOrder[i + 1]].start / 100.0;
+                if (this.layers > 1) {
+                    overlap -= layers[this.layers - 1].offsetHeight * this.components[this.layersOrder[this.layers - 1]].start / 100.0;
 
-                layers[this.layers - i - 1].style.transform = `translateY(${overlap}px)`;
-            }
+                    layers[this.layers - 1].style.transform = `translateY(${overlap}px)`;
+                }
 
-            if (this.layers > 1) {
-                overlap -= layers[this.layers - 1].offsetHeight * this.components[this.layersOrder[this.layers - 1]].start / 100.0;
+                $(`#${this.id} .diagram`)[0].style.paddingTop = Math.max(0, tallest - layers[0].offsetHeight) + "px";
 
-                layers[this.layers - 1].style.transform = `translateY(${overlap}px)`;
+            } else {
+                let longest = 0;
+
+                for (let i = this.layers - 2; i > 0; --i) {
+                    let overlapPercent = 0;
+                    if (i != ignoreIndex) {
+                        overlapPercent = this.components[this.layersOrder[i]].overlap;
+                    }
+
+                    if (layers[this.layers - i - 1].offsetWidth > longest) {
+                        longest = layers[this.layers - i - 1].offsetWidth;
+                    }
+
+                    overlap -= layers[this.layers - i - 1].offsetWidth * overlapPercent / 100.0;
+                    overlap -= layers[this.layers - i - 2].offsetWidth * this.components[this.layersOrder[i + 1]].start / 100.0;
+
+                    layers[this.layers - i - 1].style.transform = `translateX(${overlap}px)`;
+                }
+
+                if (this.layers > 1) {
+                    overlap -= layers[this.layers - 1].offsetWidth * this.components[this.layersOrder[this.layers - 1]].start / 100.0;
+
+                    layers[this.layers - 1].style.transform = `translateX(${overlap}px)`;
+                }
+
+                $(`#${this.id} .diagram`)[0].style.paddingLeft = Math.max(0, longest - layers[0].offsetWidth) + "px";
             }
         },
 
@@ -297,7 +379,11 @@
             // Fan out the layers in the diagram
 
             $(`#${this.id} .diagram`).children().each((i, c) => {
-                c.style.transform = "translateY(0%)";
+                if (this.orientation === "vertical") {
+                    c.style.transform = "translateY(0%)";
+                } else {
+                    c.style.transform = "translateX(0%)";
+                }
             });
         },
 
@@ -336,14 +422,29 @@
 
             if (this.draggeditem.zindex != index) {
                 if (index < this.layers) {
-                    const shiftup = $(`#${this.id} .diagram`).children()[this.layers - index - 1].offsetHeight * 0.5;
-                    $(`#${this.id} .diagram`).children()[this.layers - index - 1].style.transform = `translateY(-${shiftup}px)`;
+                    if (this.orientation === "vertical") {
+                        const shiftup = $(`#${this.id} .diagram`).children()[this.layers - index - 1].offsetHeight * 0.5;
+                        $(`#${this.id} .diagram`).children()[this.layers - index - 1].style.transform = `translateY(-${shiftup}px)`;
+                    } else {
+                        const shiftleft = $(`#${this.id} .diagram`).children()[this.layers - index - 1].offsetWidth * 0.5;
+                        $(`#${this.id} .diagram`).children()[this.layers - index - 1].style.transform = `translateX(-${shiftleft}px)`;
+                    }
                 }
 
                 const img = document.createElement("img");
                 img.className = "ghost";
                 img.src = this.components[component].image;
-                img.style = `width: 100%; position: absolute; bottom: 80%; right: 0%; opacity: 0.5;`;
+                img.style = `position: absolute; opacity: 0.5;`;
+
+                if (this.orientation === "vertical") {
+                    img.style.width = this.components[component].size + "%";
+                    img.style.bottom = "80%";
+                    img.style.right = "0%";
+                } else {
+                    img.style.height = this.components[component].size + "%";
+                    img.style.bottom = "0%";
+                    img.style.right = "80%";
+                }
 
                 $(`#${this.id} .diagram`).children()[this.layers - index].appendChild(img);
             }
@@ -351,17 +452,18 @@
 
         dragLeaveComponent: function (e) {
             // When dragging component leaves a layer
-
-            /*const layer = this.getHoveredLayer();
-            if (layer == null) {
-                this.collapse();
-            }*/
-
-            $(`#${this.id} .diagram .ghost`).each((i, c) => {
+            Array.from(e.target.parentElement.querySelectorAll(".ghost")).forEach((c) => {
                 c.remove();
             })
 
-            this.fanout();
+            const index = e.target.parentElement.style.zIndex;
+            if (index < this.layers) {
+                if (this.orientation === "vertical") {
+                    $(`#${this.id} .diagram`).children()[this.layers - index - 1].style.transform = "translateY(0%)";
+                } else {
+                    $(`#${this.id} .diagram`).children()[this.layers - index - 1].style.transform = "translateX(0%)";
+                }
+            }
         },
 
         dropComponent: function (e) {
@@ -468,19 +570,39 @@
             $(`#${this.id} .diagram`).children().each((i, c) => {
                 if (this.layersOrder[this.layers - index - 1] != null) {
                     c.children[0].src = this.components[this.layersOrder[this.layers - index - 1]].image;
-                    c.children[0].style.width = this.components[this.layersOrder[this.layers - index - 1]].size + '%';
+                    c.children[0].style.position = "relative";
 
-                    const align = this.components[this.layersOrder[this.layers - index - 1]].alignment;
-                    if (align == "center") {
-                        c.children[0].style.marginLeft = `calc((100% - ${this.components[this.layersOrder[this.layers - index - 1]].size}%) / 2)`;
-                    } else if (align == "left") {
-                        c.children[0].style.marginLeft = 0;
+                    if (this.orientation == "vertical") {
+                        c.children[0].style.width = this.components[this.layersOrder[this.layers - index - 1]].size + '%';
+
+                        const align = this.components[this.layersOrder[this.layers - index - 1]].alignment;
+                        if (!isNaN(align)) {
+                            c.children[0].style.left = `${align}%`;
+                        } else if (align == "left") {
+                            c.children[0].style.left = 0;
+                        } else if (align == "right") {
+                            c.children[0].style.left = `calc(100% - ${this.components[this.layersOrder[this.layers - index - 1]].size}%)`;
+                        } else {
+                            c.children[0].style.left = `calc((100% - ${this.components[this.layersOrder[this.layers - index - 1]].size}%) / 2)`;
+                        }
+
                     } else {
-                        c.children[0].style.marginLeft = `calc(100% - ${this.components[this.layersOrder[this.layers - index - 1]].size}%)`;
+                        c.children[0].style.height = this.components[this.layersOrder[this.layers - index - 1]].size + '%';
+
+                        const align = this.components[this.layersOrder[this.layers - index - 1]].alignment;
+                        if (!isNaN(align)) {
+                            c.children[0].style.top = `${align}%`;
+                        } else if (align == "top") {
+                            c.children[0].style.top = 0;
+                        } else if (align == "bottom") {
+                            c.children[0].style.top = `calc(100% - ${this.components[this.layersOrder[this.layers - index - 1]].size}%)`;
+                        } else {
+                            c.children[0].style.top = `calc((100% - ${this.components[this.layersOrder[this.layers - index - 1]].size}%) / 2)`;
+                        }
                     }
 
                 } else {
-                    c.children[0].src = this.dummy.image;
+                    c.children[0].src = this.dummy[this.orientation].image;
                     c.children[0].style.opacity = 0;
                 }
                 index += 1;
@@ -529,10 +651,10 @@
                 popupheadercontent.innerText = this.layersOrder[obj.style.zIndex - 1];
 
                 if (this.components[this.layersOrder[obj.style.zIndex - 1]].description != null && this.components[this.layersOrder[obj.style.zIndex - 1]].description != "") {
-                    popupcontent.innerText = this.components[this.layersOrder[obj.style.zIndex - 1]].description;
+                    popupcontent.innerHTML = this.components[this.layersOrder[obj.style.zIndex - 1]].description;
                 }
                 else {
-                    popupcontent.innerText = "There is no description.";
+                    popupcontent.innerHTML = "There is no description.";
                 }
 
             } else if (obj.className == "sidebarcomponent") {
@@ -540,9 +662,9 @@
                 popupheadercontent.innerText = obj.id;
 
                 if (this.components[obj.id].description != null && this.components[obj.id].description != "") {
-                    popupcontent.innerText = this.components[obj.id].description;
+                    popupcontent.innerHTML = this.components[obj.id].description;
                 } else {
-                    popupcontent.innerText = "There is no description.";
+                    popupcontent.innerHTML = "There is no description.";
                 }
             }
         },

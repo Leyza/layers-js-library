@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -15,11 +15,347 @@
             <a href="/showcase.html" class="tab">Showcase</a>
             <a href="/example.html" class="tab">Examples</a>
             <a class="currtab">Documentation</a>
-            <a class="tab">Github</a>
+            <a href="https://github.com/csc309-winter-2022/js-library-wangni39" target="_blank" class="tab">Github</a>
         </div>
     </div>
 
-    <div style="text-align: center">API documentation page.</div>
+    <div class="content">
+        <h2 class="sectionheader">Getting Started</h2>
+
+        To start using Layers.js, you must include <strong>layers.js</strong>, <strong>layers_style.css</strong>, and the <strong>jquery library</strong> in the head section of your html page as shown below.
+
+        <pre>
+        <code>
+        &lt;<span class="keyword">!DOCTYPE html</span>&gt;
+        &lt;<span class="keyword">html</span> lang="en"&gt;
+        &lt;<span class="keyword">head</span>&gt;
+            &lt;<span class="keyword">meta</span> charset="utf-8"&gt;
+            &lt;<span class="keyword">title</span>&gt;HTML page title&lt;<span class="keyword">/title</span>&gt;
+
+            &lt;<span class="keyword">link</span> rel="stylesheet" type="text/css" href="layers_style.css"&gt;
+            &lt;<span class="keyword">script</span> type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"&gt;&lt;<span class="keyword">/script</span>&gt;
+            &lt;<span class="keyword">script</span> defer type="text/javascript" src="js/layers.js"&gt;&lt;<span class="keyword">/script</span>&gt;
+        &lt;<span class="keyword">/head</span>&gt;
+        </code>
+        </pre>
+
+        Now you're ready to start creating diagrams with layers.js! Use the code below to initialize a simple 30vw by 50vw vertical diagram with a 10 layer limit. You can add your own images and customize your diagram from there.
+
+        <pre>
+        <code>
+        <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"newID"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, <span class="string">"30vw"</span>, <span class="string">"50vw"</span>, <span class="string">"vertical"</span>, <span class="keyword">true</span>, <span class="keyword">10</span>);
+        </code>
+        </pre>
+
+
+        <h2 class="sectionheader">Objects</h2>
+
+        <h3 class="smallsectionheader">layers diagram object</h3>
+        <pre>
+        <code>
+        {
+            this.id = <span class="string">"someid"</span>;
+            this.orientation = <span class="string">"vertical"</span>;
+            this.diagramwidth = <span class="string">"30vw"</span>;
+            this.diagramheight = <span class="string">"50vw"</span>;
+            this.sidebarwidth = <span class="string">"10vw"</span>;
+            this.sidebarheight = <span class="string">"40vw"</span>;
+            this.madeDiagram = <span class="keyword">false</span>;
+            this.layerlimit = <span class="keyword">11</span>;
+
+            this.layers = <span class="keyword">0</span>;
+            this.layersOrder = [<span class="keyword">null</span>];
+            this.components = {};
+            this.allowEdit = <span class="keyword">true</span>;
+            this.sidebarComponents = <span class="keyword">0</span>;
+            this.sidebar = [];
+        }
+        </code>
+        </pre>
+
+        <div class="apisection">
+            Layers diagram object containing all information needed for the layers diagram and is created when the constructor is called.
+            <br />
+            <br />
+            <h4 class="lastsectionheader">Values:</h4>
+            <ul>
+                <li><span class="parameter">this.id - </span>unique id of this layers diagram.</li>
+                <li><span class="parameter">this.orientation - </span>the orientation of this layers diagram. Either "horizontal" or "vertical".</li>
+                <li><span class="parameter">this.diagramwidth - </span>width of this layers diagram.</li>
+                <li><span class="parameter">this.diagramheight - </span>height of this layers diagram.</li>
+                <li><span class="parameter">this.sidebarwidth - </span>width of this layers diagram's sidebar.</li>
+                <li><span class="parameter">this.sidebarheight - </span>height of this layers diagram's sidebar.</li>
+                <li><span class="parameter">this.madeDiagram - </span>boolean specifying whether this diagram has been drawn to the webpage yet.</li>
+                <li><span class="parameter">this.layerlimit - </span>the maximum number of layers this layers diagram allows plus one.</li>
+                <li><span class="parameter">this.layers - </span>the number of layers currently drawn to the webpage.</li>
+                <li><span class="parameter">this.layersOrder - </span>a list of component names specifying layers currently in this layers diagram.</li>
+                <li><span class="parameter">this.components - </span>an object containing mapping from component names to component objects.</li>
+                <li><span class="parameter">this.allowEdit - </span>boolean determining whether this layers diagram allows user modifications.</li>
+                <li><span class="parameter">this.sidebarComponents - </span>the number of sidebar components currently drawn to the webpage.</li>
+                <li><span class="parameter">this.sidebar - </span>a list of component names specifying components currently in this layers diagram's sidebar.</li>
+            </ul>
+        </div>
+
+
+
+        <h3 class="smallsectionheader">component object</h3>
+        <pre>
+        <code>
+        { 
+            image: <span class="string">"images/bottom_bun.png"</span>, 
+            description: <span class="keyword">null</span>, 
+            overlap: <span class="keyword">50</span>, 
+            start: <span class="keyword">0</span>, 
+            size: <span class="keyword">100</span>, 
+            alignment: <span class="string">"center"</span>
+        }
+        </code>
+        </pre>
+
+        <div class="apisection">
+            Object containing all information needed for a component.
+            <br />
+            <br />
+            <h4 class="lastsectionheader">Values:</h4>
+            <ul>
+                <li><span class="parameter">image - </span>path to the image for this component.</li>
+                <li><span class="parameter">description - </span>string description of the component or null if there's no description.</li>
+                <li><span class="parameter">overlap - </span>overlap value for this component. Determines percent of this component that gets overlapped by the above component in diagram collapsed view.</li>
+                <li><span class="parameter">start - </span>start value for this component. Determines percent of this component that will overlap the component beneath it in diagram collapsed view.</li>
+                <li><span class="parameter">size - </span>size value for this component. Specifies percent of diagram dimensions this component's size will scale to.</li>
+                <li><span class="parameter">alignment - </span>alignment of this component in the diagram. Determines how the component will align in the diagram.</li>
+            </ul>
+        </div>
+
+
+
+
+
+
+        <h2 class="sectionheader">API</h2>
+
+
+
+        <h3 class="smallsectionheader">Constructor</h3>
+        <pre>
+        <code>
+        LayersDiagram(id, sidebarwidth, sidebarheight, diagramwidth = <span class="keyword">null</span>, diagramheight = <span class="keyword">null</span>, orientation = <span class="string">"vertical"</span>, allowEdit = <span class="keyword">true</span>, layerlimit = <span class="keyword">Infinity</span>)
+        </code>
+        </pre>
+
+        <div class="apisection">
+            Creates the layers diagram object.
+            <br />
+            <br />
+            <h4 class="lastsectionheader">Parameters:</h4>
+            <ul>
+                <li><span class="parameter">id - </span>the unique identification of the layers diagram. This will be the id value on the created DOM element for the diagram, so choose a unique value to input here.</li>
+                <li><span class="parameter">sidebarwidth - </span>the width of the diagram sidebar. Examples: "10vw", "50px", etc.</li>
+                <li><span class="parameter">sidebarheight - </span>the maximum height of the diagram sidebar. Examples: "30vw", "300px", etc.</li>
+                <li><span class="parameter">diagramwidth - </span>the width of the diagram. An input is required for vertically oriented diagrams. For horizontally oriented diagrams, an input of null means there is no width limit to the diagram. Default value is null.</li>
+                <li><span class="parameter">diagramheight - </span>the height of the diagram. An input is required for horizontally oriented diagrams. For vertically oriented diagrams, an input of null means there is no height limit to the diagram. Default value is null.</li>
+                <li><span class="parameter">orientation - </span>the orientation of the diagram, either "vertical" or "horizontal". Default value is "vertical".</li>
+                <li><span class="parameter">allowEdit - </span>boolean specifying whether to allow user modification of the diagram. true means users may modify the created diagram, false means users cannot modify the created diagram. Default value is true.</li>
+                <li><span class="parameter">layerlimit - </span>the maximum number of layers allowed in the diagram. Default value is infinity.</li>
+            </ul>
+            <h4 class="lastsectionheader">Return Value:</h4>
+            <ul>
+                <li>The layers diagram object created with the specified parameters.</li>
+            </ul>
+        </div>
+
+
+
+        <h3 class="smallsectionheader">makeDiagram</h3>
+        <pre>
+        <code>
+        LayersDiagram.makeDiagram(element = <span class="keyword">null</span>)
+        </code>
+        </pre>
+
+        <div class="apisection">
+            Draws the layers diagram to the webpage.
+            <br />
+            <br />
+            <h4 class="lastsectionheader">Parameters:</h4>
+            <ul>
+                <li><span class="parameter">element - </span>the DOM element to append the layers diagram too. If null, the diagram will be added to the body. Default value is null.</li>
+            </ul>
+            <h4 class="lastsectionheader">Return Value:</h4>
+            <ul>
+                <li>No return value.</li>
+            </ul>
+        </div>
+
+
+
+        <h3 class="smallsectionheader">addComponent</h3>
+        <pre>
+        <code>
+        LayersDiagram.addComponent(putInSidebar, name, image, overlap = <span class="keyword">50</span>, start = <span class="keyword">0</span>, size = <span class="keyword">100</span>, alignment = <span class="string">center</span>)
+        </code>
+        </pre>
+
+        <div class="apisection">
+            Adds a component to the layers diagram.
+            <br />
+            <br />
+            <h4 class="lastsectionheader">Parameters:</h4>
+            <ul>
+                <li><span class="parameter">putInSidebar - </span>boolean to determine whether this component will be included in the sidebar. true means the component will be included in the sidebar, false means the component will not be in the sidebar.</li>
+                <li><span class="parameter">name - </span>unique name identifier for the component. There cannot be multiple components with the same name in the same layers diagram.</li>
+                <li><span class="parameter">image - </span>path to the image for the component.</li>
+                <li><span class="parameter">overlap - </span>percent of this component that will be overlapped by the component above it in the diagram collapse form. Default value is 50.</li>
+                <li><span class="parameter">start - </span>percent of this component that will cover the component beneath it in the diagram collapse form. Default value is 0.</li>
+                <li><span class="parameter">size - </span>percent of the diagram dimension (width for vertical diagram, height for horizontal diagram) that the component will fit to. Default value is 100.</li>
+                <li><span class="parameter">alignment - </span>the alignment of the component in the diagram. This value can be a preset alignment, or a number specifying the percent distance from the top of a horizontal diagram or left side of a vertical diagram. Preset alignments are "left", "center", "right" for vertical diagrams, and "top", "center", "bottom" for horizontal diagrams. Default value is "center".</li>
+            </ul>
+            <h4 class="lastsectionheader">Return Value:</h4>
+            <ul>
+                <li>No return value.</li>
+            </ul>
+        </div>
+
+
+
+        <h3 class="smallsectionheader">addComponentDescription</h3>
+        <pre>
+        <code>
+        LayersDiagram.addComponentDescription(componentName, description)
+        </code>
+        </pre>
+
+        <div class="apisection">
+            Add a description to a component.
+            <br />
+            <br />
+            <h4 class="lastsectionheader">Parameters:</h4>
+            <ul>
+                <li><span class="parameter">componentName - </span>the name identifier of the component to add the description to.</li>
+                <li><span class="parameter">description - </span>string of the description to add. HTML tags can be used as well.</li>
+            </ul>
+            <h4 class="lastsectionheader">Return Value:</h4>
+            <ul>
+                <li>No return value.</li>
+            </ul>
+        </div>
+
+
+
+        <h3 class="smallsectionheader">addLayer</h3>
+        <pre>
+        <code>
+        LayersDiagram.addLayer(componentName)
+        </code>
+        </pre>
+
+        <div class="apisection">
+            Add a layer to the top of the diagram.
+            <br />
+            <br />
+            <h4 class="lastsectionheader">Parameters:</h4>
+            <ul>
+                <li><span class="parameter">componentName - </span>the name identifier of the component to add as a new layer in the diagram.</li>
+            </ul>
+            <h4 class="lastsectionheader">Return Value:</h4>
+            <ul>
+                <li>No return value.</li>
+            </ul>
+        </div>
+
+
+
+        <h3 class="smallsectionheader">setLayers</h3>
+        <pre>
+        <code>
+        LayersDiagram.setLayers(componentList)
+        </code>
+        </pre>
+
+        <div class="apisection">
+            Overwrite and set all layers of the diagram.
+            <br />
+            <br />
+            <h4 class="lastsectionheader">Parameters:</h4>
+            <ul>
+                <li><span class="parameter">componentList - </span>a list of component name identifiers with the first item being the bottom-most layer.</li>
+            </ul>
+            <h4 class="lastsectionheader">Return Value:</h4>
+            <ul>
+                <li>No return value.</li>
+            </ul>
+        </div>
+
+
+
+        <h3 class="smallsectionheader">getAllLayers</h3>
+        <pre>
+        <code>
+        LayersDiagram.getAllLayers()
+        </code>
+        </pre>
+
+        <div class="apisection">
+            Get a list of all the layers currently in the layers diagram.
+            <br />
+            <br />
+            <h4 class="lastsectionheader">Parameters:</h4>
+            <ul>
+                <li>No parameters.</li>
+            </ul>
+            <h4 class="lastsectionheader">Return Value:</h4>
+            <ul>
+                <li>A list of component name identifiers with the first item being the bottom-most layer.</li>
+            </ul>
+        </div>
+
+
+
+        <h3 class="smallsectionheader">getAllComponents</h3>
+        <pre>
+        <code>
+        LayersDiagram.getAllComponents()
+        </code>
+        </pre>
+
+        <div class="apisection">
+            Get all the components in the layers diagram.
+            <br />
+            <br />
+            <h4 class="lastsectionheader">Parameters:</h4>
+            <ul>
+                <li>No parameters.</li>
+            </ul>
+            <h4 class="lastsectionheader">Return Value:</h4>
+            <ul>
+                <li>An object mapping component names to component objects.</li>
+            </ul>
+        </div>
+
+
+
+        <h3 class="smallsectionheader">getAllSidebarComponents</h3>
+        <pre>
+        <code>
+        LayersDiagram.getAllSidebarComponents()
+        </code>
+        </pre>
+
+        <div class="apisection">
+            Get all the components currently in the sidebar.
+            <br />
+            <br />
+            <h4 class="lastsectionheader">Parameters:</h4>
+            <ul>
+                <li>No parameters.</li>
+            </ul>
+            <h4 class="lastsectionheader">Return Value:</h4>
+            <ul>
+                <li>A list of component name identifiers.</li>
+            </ul>
+        </div>
+
+    </div>
 
 </body>
 </html>

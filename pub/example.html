@@ -19,25 +19,26 @@
             <a href="/showcase.html" class="tab">Showcase</a>
             <a class="currtab">Examples</a>
             <a href="/api.html" class="tab">Documentation</a>
-            <a class="tab">Github</a>
+            <a href="https://github.com/csc309-winter-2022/js-library-wangni39" target="_blank" class="tab">Github</a>
         </div>
     </div>
 
     <div class="content">
-        <h2 class="sectionheader">Layered Diagram Examples</h2>
+        <h2 class="sectionheader">Vertical Layered Diagram Examples</h2>
 
-        <div id="selectform">
+        <div id="verticalselectform" class="selectform">
             <div class="formitem">
                 <span class="formtext">Which example to display:</span>
-                <select id="sampletype">
+                <select id="verticalsampletype">
                     <option>Hamburger</option>
                     <option>Phone</option>
+                    <option>Flowers</option>
                 </select>
             </div>
 
             <div class="formitem">
                 <span class="formtext">Allow user to modify diagram:</span>
-                <select id="allowedit">
+                <select id="verticalallowedit">
                     <option>yes</option>
                     <option>no</option>
                 </select>
@@ -45,7 +46,7 @@
 
             <div class="formitem">
                 <span class="formtext">Limit diagram height:</span>
-                <select id="limitheight">
+                <select id="verticallimitheight">
                     <option>no limit</option>
                     <option>40vw</option>
                     <option>60vw</option>
@@ -55,7 +56,7 @@
 
             <div class="formitem">
                 <span class="formtext">Limit number of layers:</span>
-                <select id="limitlayers">
+                <select id="verticallimitlayers">
                     <option>no limit</option>
                     <option>5</option>
                     <option>10</option>
@@ -70,16 +71,80 @@
 
         <br />
 
-        <div id="verticaldiagramdescription"></div>
+        <div id="verticaldiagramdescription" class="diagramdescription"></div>
         <div id="verticaldiagramspot"></div>
+        <br />
         <div id="verticalsamplecode">
             <h3 class="smallsectionheader">HTML</h3>
             <pre>
-                <code id="verticalsamplehtml"></code>
+            <code id="verticalsamplehtml"></code>
             </pre>
             <h3 class="smallsectionheader">JS</h3>
             <pre>
             <code id="verticalsamplejs"></code>
+            </pre>
+        </div>
+
+        <br />
+
+
+        <h2 class="sectionheader">Horizontal Layered Diagram Examples</h2>
+
+        <div id="horizontalselectform" class="selectform">
+            <div class="formitem">
+                <span class="formtext">Which example to display:</span>
+                <select id="horizontalsampletype">
+                    <option>Speaker</option>
+                    <option>Flowers</option>
+                </select>
+            </div>
+
+            <div class="formitem">
+                <span class="formtext">Allow user to modify diagram:</span>
+                <select id="horizontalallowedit">
+                    <option>yes</option>
+                    <option>no</option>
+                </select>
+            </div>
+
+            <div class="formitem">
+                <span class="formtext">Limit diagram width:</span>
+                <select id="horizontallimitwidth">
+                    <option>no limit</option>
+                    <option>40vw</option>
+                    <option>60vw</option>
+                    <option>80vw</option>
+                </select>
+            </div>
+
+            <div class="formitem">
+                <span class="formtext">Limit number of layers:</span>
+                <select id="horizontallimitlayers">
+                    <option>no limit</option>
+                    <option>5</option>
+                    <option>10</option>
+                    <option>20</option>
+                </select>
+            </div>
+
+            <div class="formitem">
+                <button class="formbutton" onclick="loadhorizontalexample()">Generate Example</button>
+            </div>
+        </div>
+
+        <br />
+
+        <div id="horizontaldiagramdescription" class="diagramdescription"></div>
+        <div id="horizontaldiagramspot"></div>
+        <br />
+        <div id="horizontalsamplecode">
+            <h3 class="smallsectionheader">HTML</h3>
+            <pre>
+            <code id="horizontalsamplehtml"></code>
+            </pre>
+            <h3 class="smallsectionheader">JS</h3>
+            <pre>
+            <code id="horizontalsamplejs"></code>
             </pre>
         </div>
 

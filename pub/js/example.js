@@ -21,27 +21,23 @@ function generateBurgerComponents(diagram) {
     diagram.addComponentDescription("onions", "A few slices of fresh red onions.");
 
     document.getElementById("verticalsamplejs").innerHTML += `
-    diagram.addComponent(putInSidebar=<span class="keyword">true</span>, name=<span class="string">"top bun"</span>, image=<span class="string">"images/top_bun.png"</span>);
-    diagram.addComponent(putInSidebar=<span class="keyword">true</span>, name=<span class="string">"bottom bun"</span>,  image=<span class="string">"images/bottom_bun.png"</span>, overlap=<span class="keyword">60</span>);
-    diagram.addComponent(putInSidebar=<span class="keyword">true</span>, name=<span class="string">"patty"</span>, image=<span class="string">"images/patty.png"</span>, overlap=<span class="keyword">60</span>);
-    diagram.addComponent(putInSidebar=<span class="keyword">true</span>, name=<span class="string">"cheese"</span>, image=<span class="string">"images/cheese.png"</span>, overlap=<span class="keyword">60</span>, start=<span class="keyword">30</span>);
-    diagram.addComponent(putInSidebar=<span class="keyword">true</span>, name=<span class="string">"lettuce"</span>, image=<span class="string">"images/lettuce.png"</span>, overlap=<span class="keyword">75</span>);
-    diagram.addComponent(putInSidebar=<span class="keyword">true</span>, name=<span class="string">"tomato"</span>, image=<span class="string">"images/tomato.png"</span>, overlap=<span class="keyword">70</span>);
-    diagram.addComponent(putInSidebar=<span class="keyword">true</span>, name=<span class="string">"onions"</span>, image=<span class="string">"images/onions.png"</span>, overlap=<span class="keyword">80</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"top bun"</span>, <span class="string">"images/top_bun.png"</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"bottom bun"</span>,  <span class="string">"images/bottom_bun.png"</span>, <span class="keyword">60</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"patty"</span>, <span class="string">"images/patty.png"</span>, <span class="keyword">60</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"cheese"</span>, <span class="string">"images/cheese.png"</span>, <span class="keyword">60</span>, <span class="keyword">30</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"lettuce"</span>, <span class="string">"images/lettuce.png"</span>, <span class="keyword">75</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"tomato"</span>, <span class="string">"images/tomato.png"</span>, <span class="keyword">70</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"onions"</span>, <span class="string">"images/onions.png"</span>, <span class="keyword">80</span>);
 
-    diagram.addLayer(<span class="string">"bottom bun"</span>);
-    diagram.addLayer(<span class="string">"patty"</span>);
-    diagram.addLayer(<span class="string">"lettuce"</span>);
-    diagram.addLayer(<span class="string">"tomato"</span>);
-    diagram.addLayer(<span class="string">"top bun"</span>);
+        diagram.setLayers([<span class="string">"bottom bun"</span>, <span class="string">"patty"</span>, <span class="string">"lettuce"</span>, <span class="string">"tomato"</span>, <span class="string">"top bun"</span>]);
 
-    diagram.addComponentDescription(<span class="string">"patty"</span>, <span class="string">"100% premium beef patty smoked to perfection then charred on the grill."</span>);
-    diagram.addComponentDescription(<span class="string">"top bun"</span>, <span class="string">"Soft bun sprinkled with sesame seeds and freshly baked every morning."</span>);
-    diagram.addComponentDescription(<span class="string">"bottom bun"</span>, <span class="string">"Soft bun freshly baked every morning."</span>);
-    diagram.addComponentDescription(<span class="string">"tomato"</span>, <span class="string">"Two sweet 1cm thick slices of organic tomatoes from the local farm."</span>);
-    diagram.addComponentDescription(<span class="string">"lettuce"</span>, <span class="string">"Fresh leaves of lettuce."</span>);
-    diagram.addComponentDescription(<span class="string">"cheese"</span>, <span class="string">"A slice of melted swiss cheese."</span>);
-    diagram.addComponentDescription(<span class="string">"onions"</span>, <span class="string">"A few slices of fresh red onions."</span>);
+        diagram.addComponentDescription(<span class="string">"patty"</span>, <span class="string">"100% premium beef patty smoked to perfection then charred on the grill."</span>);
+        diagram.addComponentDescription(<span class="string">"top bun"</span>, <span class="string">"Soft bun sprinkled with sesame seeds and freshly baked every morning."</span>);
+        diagram.addComponentDescription(<span class="string">"bottom bun"</span>, <span class="string">"Soft bun freshly baked every morning."</span>);
+        diagram.addComponentDescription(<span class="string">"tomato"</span>, <span class="string">"Two sweet 1cm thick slices of organic tomatoes from the local farm."</span>);
+        diagram.addComponentDescription(<span class="string">"lettuce"</span>, <span class="string">"Fresh leaves of lettuce."</span>);
+        diagram.addComponentDescription(<span class="string">"cheese"</span>, <span class="string">"A slice of melted swiss cheese."</span>);
+        diagram.addComponentDescription(<span class="string">"onions"</span>, <span class="string">"A few slices of fresh red onions."</span>);
     `
 }
 
@@ -58,69 +54,197 @@ function generatePhoneComponents(diagram) {
 
     diagram.addComponentDescription("audio jack", "6.35mm phone audio jack.");
     diagram.addComponentDescription("battery", "Lithium ion battery that takes 2 hours to charge and can last a whopping 10 minutes!");
-    diagram.addComponentDescription("phone screen", "Bullet proof glass.\n\n\n\n\n Just kidding. \n\n\n\n\n\n You shattered it already didn't you? \n\n\n\n\n\n Thanks for paying more money to replace it :)");
+    diagram.addComponentDescription("phone screen", "Bullet proof glass. <br/><br/><br/><br/><br/> Just kidding. <br/><br/><br/><br/><br/> You shattered it already didn't you? <br/><br/><br/><br/><br/> Thanks for paying more money to replace it :)");
     diagram.addComponentDescription("phone case", "Normal phone case.");
 
     document.getElementById("verticalsamplejs").innerHTML += `
-    diagram.addComponent(putInSidebar=<span class="keyword">true</span>, name=<span class="string">"phone case"</span>, image=<span class="string">"images/phonecase.png"</span>, overlap=<span class="keyword">100</span>);
-    diagram.addComponent(putInSidebar=<span class="keyword">true</span>, name=<span class="string">"battery"</span>, image=<span class="string">"images/phonebattery.png"</span>, overlap=<span class="keyword">100</span>, 
-                            start=<span class="keyword">0</span>, size=<span class="keyword">90</span>, alignment=<span class="string">"center"</span>);
-    diagram.addComponent(putInSidebar=<span class="keyword">true</span>, name=<span class="string">"phone screen"</span>, image=<span class="string">"images/phonescreen.png"</span>, overlap=<span class="keyword">100</span>);
-    diagram.addComponent(putInSidebar=<span class="keyword">true</span>, name=<span class="string">"audio jack"</span>, image=<span class="string">"images/phoneaudiojack.png"</span>, overlap=<span class="keyword">100</span>, 
-                            start=<span class="keyword">0</span>, size=<span class="keyword">50</span>, alignment=<span class="string">"left"</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"phone case"</span>, <span class="string">"images/phonecase.png"</span>, <span class="keyword">100</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"battery"</span>, <span class="string">"images/phonebattery.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">90</span>, <span class="string">"center"</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"phone screen"</span>, <span class="string">"images/phonescreen.png"</span>, <span class="keyword">100</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"audio jack"</span>, <span class="string">"images/phoneaudiojack.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>, <span class="string">"left"</span>);
 
-    diagram.addLayer(<span class="string">"phone case"</span>);
-    diagram.addLayer(<span class="string">"audio jack"</span>);
-    diagram.addLayer(<span class="string">"battery"</span>);
-    diagram.addLayer(<span class="string">"phone screen"</span>);
+        diagram.addLayer(<span class="string">"phone case"</span>);
+        diagram.addLayer(<span class="string">"audio jack"</span>);
+        diagram.addLayer(<span class="string">"battery"</span>);
+        diagram.addLayer(<span class="string">"phone screen"</span>);
 
-    diagram.addComponentDescription(<span class="string">"audio jack"</span>, <span class="string">"6.35mm phone audio jack."</span>);
-    diagram.addComponentDescription(<span class="string">"battery"</span>, <span class="string">"Lithium ion battery that takes 2 hours to charge and can last a whopping 10 minutes!"</span>);
-    diagram.addComponentDescription(<span class="string">"phone screen"</span>, <span class="string">"Bullet proof glass.\\n\\n\\n\\n\\n Just kidding. \\n\\n\\n\\n\\n\\n 
-                                You shattered it already didn't you? \\n\\n\\n\\n\\n\\n Thanks for paying more money to replace it :)"</span>);
-    diagram.addComponentDescription(<span class="string">"phone case"</span>, <span class="string">"Normal phone case."</span>);
+        diagram.addComponentDescription(<span class="string">"audio jack"</span>, <span class="string">"6.35mm phone audio jack."</span>);
+        diagram.addComponentDescription(<span class="string">"battery"</span>, <span class="string">"Lithium ion battery that takes 2 hours to charge and can last a whopping 10 minutes!"</span>);
+        diagram.addComponentDescription(<span class="string">"phone screen"</span>, <span class="string">"Bullet proof glass. <span class="keyword">&lt;br/&gt;</span> Just kidding. <span class="keyword">&lt;br/&gt;</span> You shattered it already didn't you? <span class="keyword">&lt;br/&gt;</span> Thanks for paying more money to replace it :)"</span>);
+        diagram.addComponentDescription(<span class="string">"phone case"</span>, <span class="string">"Normal phone case."</span>);
     `
 }
 
-function generateDiagram(sample, edit, height, layers) {
+function generateFlowerComponents(diagram, orientation) {
+    if (orientation === "vertical") {
+        diagram.addComponent(true, "ceramic flowerpot", "images/flowerpot.png", 30);
+        diagram.addComponent(true, "pink flowers", "images/pink_flowers.png", 90, 10);
+        diagram.addComponent(true, "pink rose", "images/pink_rose.png", 100, 0, 50, 50);
+        diagram.addComponent(true, "red roses", "images/red_roses.png", 100, 0, 50);
+        diagram.addComponent(true, "sunflower", "images/sunflower.png", 100, 0, 80, "left");
+        diagram.addComponent(true, "small tree", "images/small_tree.png", 100);
+
+        document.getElementById("verticalsamplejs").innerHTML += `
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"ceramic flowerpot"</span>, <span class="string">"images/flowerpot.png"</span>, <span class="keyword">30</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"pink flowers"</span>, <span class="string">"images/pink_flowers.png"</span>, <span class="keyword">90</span>, <span class="keyword">10</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"pink rose"</span>, <span class="string">"images/pink_rose.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>, <span class="keyword">50</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"red roses"</span>, <span class="string">"images/red_roses.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>);    
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"sunflower"</span>, <span class="string">"images/sunflower.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">80</span>, <span class="string">"left"</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"small tree"</span>, <span class="string">"images/small_tree.png"</span>, <span class="keyword">100</span>);
+        
+        diagram.addLayer(<span class="string">"ceramic flowerpot"</span>);
+
+        diagram.addComponentDescription(<span class="string">"ceramic flowerpot"</span>, <span class="string">"Hand crafted clay baked flower pot."</span>);
+        diagram.addComponentDescription(<span class="string">"pink flowers"</span>, <span class="string">"Fresh bundle of sweet scented pink flowers."</span>);
+        diagram.addComponentDescription(<span class="string">"pink rose"</span>, <span class="string">"A single pink rose. Beware of large thorns."</span>);
+        diagram.addComponentDescription(<span class="string">"red roses"</span>, <span class="string">"A bundle of beautiful red roses. Perfect as a gift."</span>);
+        diagram.addComponentDescription(<span class="string">"sunflower"</span>, <span class="string">"Vibrant yellow young sunflower."</span>);
+        diagram.addComponentDescription(<span class="string">"small tree"</span>, <span class="string">"Lushious potted tree plant."</span>);
+    `
+
+    } else {
+        diagram.addComponent(true, "ceramic flowerpot", "images/flowerpot.png", 100, 0, 50, "bottom");
+        diagram.addComponent(true, "pink flowers", "images/pink_flowers.png", 90, 10, 80, "top");
+        diagram.addComponent(true, "pink rose", "images/pink_rose.png", 100, 0, 50, 17);
+        diagram.addComponent(true, "red roses", "images/red_roses.png", 100, 0, 65, "top");
+        diagram.addComponent(true, "sunflower", "images/sunflower.png", 100, 0, 50, 13);
+        diagram.addComponent(true, "small tree", "images/small_tree.png", 100, 0, 62, "top");
+
+        document.getElementById("horizontalsamplejs").innerHTML += `
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"ceramic flowerpot"</span>, <span class="string">"images/flowerpot.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>, <span class="string">"bottom"</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"pink flowers"</span>, <span class="string">"images/pink_flowers.png"</span>, <span class="keyword">90</span>, <span class="keyword">10</span>, <span class="keyword">80</span>, <span class="string">"top"</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"pink rose"</span>, <span class="string">"images/pink_rose.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>, <span class="keyword">17</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"red roses"</span>, <span class="string">"images/red_roses.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">65</span>, <span class="string">"top"</span>);    
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"sunflower"</span>, <span class="string">"images/sunflower.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>, <span class="keyword">13</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"small tree"</span>, <span class="string">"images/small_tree.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">62</span>, <span class="string">"top"</span>);
+
+        diagram.addLayer(<span class="string">"ceramic flowerpot"</span>);
+
+        diagram.addComponentDescription(<span class="string">"ceramic flowerpot"</span>, <span class="string">"Hand crafted clay baked flower pot."</span>);
+        diagram.addComponentDescription(<span class="string">"pink flowers"</span>, <span class="string">"Fresh bundle of sweet scented pink flowers."</span>);
+        diagram.addComponentDescription(<span class="string">"pink rose"</span>, <span class="string">"A single pink rose. Beware of large thorns."</span>);
+        diagram.addComponentDescription(<span class="string">"red roses"</span>, <span class="string">"A bundle of beautiful red roses. Perfect as a gift."</span>);
+        diagram.addComponentDescription(<span class="string">"sunflower"</span>, <span class="string">"Vibrant yellow young sunflower."</span>);
+        diagram.addComponentDescription(<span class="string">"small tree"</span>, <span class="string">"Lushious potted tree plant."</span>);
+    `
+    }
+
+    diagram.addLayer("ceramic flowerpot");
+
+    diagram.addComponentDescription("ceramic flowerpot", "Hand crafted clay baked flower pot.");
+    diagram.addComponentDescription("pink flowers", "Fresh bundle of sweet scented pink flowers.");
+    diagram.addComponentDescription("pink rose", "A single pink rose. Beware of large thorns.");
+    diagram.addComponentDescription("red roses","A bundle of beautiful red roses. Perfect as a gift.");
+    diagram.addComponentDescription("sunflower", "Vibrant yellow young sunflower.");
+    diagram.addComponentDescription("small tree", "Lushious potted tree plant.");
+
+}
+
+function generateSpeakerComponents(diagram) {
+    diagram.addComponent(true, "grill mesh", "images/speaker1.png", 50);
+    diagram.addComponent(true, "front cover", "images/speaker2.png", 98);
+    diagram.addComponent(true, "speaker", "images/speaker3.png", 100, 0, 50);
+    diagram.addComponent(true, "speaker cover", "images/speaker4.png", 90);
+    diagram.addComponent(true, "back cover", "images/speaker5.png", 100);
+
+    diagram.setLayers(["back cover", "speaker cover", "speaker", "front cover", "grill mesh"]);
+
+    diagram.addComponentDescription("grill mesh", "7mm x 7mm aluminum speaker grill mesh.")
+    diagram.addComponentDescription("speaker", "90dB speakers.");
+
+    document.getElementById("horizontalsamplejs").innerHTML += `
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"grill mesh"</span>, <span class="string">"images/speaker1.png"</span>, <span class="keyword">50</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"front cover"</span>, <span class="string">"images/speaker2.png"</span>, <span class="keyword">98</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"speaker"</span>, <span class="string">"images/speaker3.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"speaker cover"</span>, <span class="string">"images/speaker4.png"</span>, <span class="keyword">90</span>);    
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"back cover"</span>, <span class="string">"images/speaker5.png"</span>, <span class="keyword">100</span>);
+
+        diagram.setLayers([<span class="string">"back cover"</span>, <span class="string">"speaker cover"</span>, <span class="string">"speaker"</span>, <span class="string">"front cover"</span>, <span class="string">"grill mesh"</span>]);
+
+        diagram.addComponentDescription(<span class="string">"grill mesh"</span>, <span class="string">"7mm x 7mm aluminum speaker grill mesh."</span>);
+        diagram.addComponentDescription(<span class="string">"speaker"</span>, <span class="string">"90dB speakers."</span>);
+    `
+}
+
+function generateDiagram(id, sample, edit, width, height, layers, orientation) {
     const allowEdit = edit == "yes";
+    const maxWidth = (width == 'no limit') ? null : width;
     const maxHeight = (height == 'no limit') ? null : height;
     const maxLayers = (layers == 'no limit') ? Infinity : parseInt(layers);
 
-    const diagram = new LayersDiagram("samplediagram", "10vw", "30vw", "30vw", maxHeight, allowEdit, maxLayers);
-    diagram.makeDiagram(document.getElementById("verticaldiagramspot"));
+    const diagram = new LayersDiagram(id, "10vw", "30vw", maxWidth, maxHeight, orientation, allowEdit, maxLayers);
 
-    document.getElementById("verticalsamplehtml").innerHTML = `<span class="keyword"><</span> <span class="keyword">div</span> id=<span class="string">"verticaldiagramspot"</span> <span class="keyword">></span> <span class="keyword"><</span> <span class="keyword">/div</span> <span class="keyword">></span>`;
+    if (orientation == "vertical") {
+        diagram.makeDiagram(document.getElementById("verticaldiagramspot"));
 
-    const heightCode = (maxHeight == null) ? `<span class="keyword">${maxHeight}</span>` : `<span class="string">"${maxHeight}"</span>`;
-    document.getElementById("verticalsamplejs").innerHTML = `
-    <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(id=<span class="string">"samplediagram"</span>, sidebarwidth=<span class="string">"10vw"</span>, sidebarheight=<span class="string">"30vw"</span>, diagramwidth=<span class="string">"30vw"</span>,
-                    diagramheight=${heightCode}, allowEdit=<span class="keyword">${allowEdit}</span>, layerlimit=<span class="keyword">${maxLayers}</span>);
-    diagram.makeDiagram(document.getElementById(<span class="string">"verticaldiagramspot"</span>));
+        document.getElementById("verticalsamplehtml").innerHTML = `
+        &lt;<span class="keyword">div</span> <span class="string">"verticaldiagramspot"</span> &gt; &lt;<span class="keyword">/div</span>&gt;
+        `;
+
+        const heightCode = (maxHeight == null) ? `<span class="keyword">${maxHeight}</span>` : `<span class="string">"${maxHeight}"</span>`;
+        document.getElementById("verticalsamplejs").innerHTML = `
+        <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"samplediagram"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, <span class="string">"30vw"</span>, ${heightCode}, <span class="keyword">${allowEdit}</span>, <span class="keyword">${maxLayers}</span>);
+        diagram.makeDiagram(document.getElementById(<span class="string">"verticaldiagramspot"</span>));
     `
+    } else {
+        diagram.makeDiagram(document.getElementById("horizontaldiagramspot"));
+
+        document.getElementById("horizontalsamplehtml").innerHTML = `
+        &lt;<span class="keyword">div</span> <span class="string">"horizontaldiagramspot"</span> &gt; &lt;<span class="keyword">/div</span>&gt;
+        `;
+
+        const widthCode = (maxWidth == null) ? `<span class="keyword">${maxWidth}</span>` : `<span class="string">"${maxWidth}"</span>`;
+        document.getElementById("horizontalsamplejs").innerHTML = `
+        <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"samplediagram"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, ${widthCode}, <span class="string">"36vw"</span>, <span class="keyword">${allowEdit}</span>, <span class="keyword">${maxLayers}</span>);
+        diagram.makeDiagram(document.getElementById(<span class="string">"horizontaldiagramspot"</span>));
+    `
+    }
 
     if (sample == "Hamburger") {
         generateBurgerComponents(diagram);
-    } else {
+    } else if (sample == "Phone") {
         generatePhoneComponents(diagram);
+    } else if (sample == "Flowers") {
+        generateFlowerComponents(diagram, orientation);
+    }else if (sample == "Speaker") {
+        generateSpeakerComponents(diagram);
     }
 }
 
 function loadverticalexample() {
-    const sample = $('#sampletype')[0].value;
-    const allowEdit = $('#allowedit')[0].value;
-    const height = $('#limitheight')[0].value;
-    const layers = $('#limitlayers')[0].value;
+    const sample = $('#verticalsampletype')[0].value;
+    const allowEdit = $('#verticalallowedit')[0].value;
+    const height = $('#verticallimitheight')[0].value;
+    const layers = $('#verticallimitlayers')[0].value;
 
     let desc1 = `The following diagram shows a <strong>${sample}.</strong> `
     let desc2 = (allowEdit == "yes") ? "This diagram <strong>can be manipulated</strong> by the user. " : "This diagram <strong>does not allow user modifications.</strong> ";
     let desc3 = (height == "no limit") ? `This diagram has <strong>no height limit</strong>, ` : `This diagram has a <strong>height limit of ${height}</strong>, `;
-    let desc4 = (layers == "no limit") ? "and there is <strong>no limit to the number of layers</strong> allowed." : `and the <strong>maximum number of layers allowed is ${layers}</strong>`;
+    let desc4 = (layers == "no limit") ? "and there is <strong>no limit to the number of layers</strong> allowed." : `and the <strong>maximum number of layers allowed is ${layers}</strong>.`;
 
     document.getElementById("verticaldiagramspot").innerHTML = '';
 
     document.getElementById("verticaldiagramdescription").innerHTML = desc1 + desc2 + desc3 + desc4;
-    generateDiagram(sample, allowEdit, height, layers);
+    generateDiagram("verticalsample", sample, allowEdit, "30vw", height, layers, "vertical");
 }
 
-window.onload = loadverticalexample;
+
+function loadhorizontalexample() {
+    const sample = $('#horizontalsampletype')[0].value;
+    const allowEdit = $('#horizontalallowedit')[0].value;
+    const width = $('#horizontallimitwidth')[0].value;
+    const layers = $('#horizontallimitlayers')[0].value;
+
+    let desc1 = `The following diagram shows a <strong>${sample}.</strong> `
+    let desc2 = (allowEdit == "yes") ? "This diagram <strong>can be manipulated</strong> by the user. " : "This diagram <strong>does not allow user modifications.</strong> ";
+    let desc3 = (width == "no limit") ? `This diagram has <strong>no width limit</strong>, ` : `This diagram has a <strong>width limit of ${width}</strong>, `;
+    let desc4 = (layers == "no limit") ? "and there is <strong>no limit to the number of layers</strong> allowed." : `and the <strong>maximum number of layers allowed is ${layers}</strong>.`;
+
+    document.getElementById("horizontaldiagramspot").innerHTML = '';
+
+    document.getElementById("horizontaldiagramdescription").innerHTML = desc1 + desc2 + desc3 + desc4;
+    generateDiagram("horizontalsample", sample, allowEdit, width, "36vw", layers, "horizontal");
+}
+
+window.onload = () => { loadverticalexample(); loadhorizontalexample(); };
+

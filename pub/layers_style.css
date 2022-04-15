@@ -48,6 +48,10 @@
     border-bottom: 0.1vw solid black;
 }
 
+.popupheader:hover {
+    cursor: pointer;
+}
+
 .popupheadercontent {
     margin-top: 1vw;
     margin-left: 1vw;
@@ -105,6 +109,19 @@
     border-right: 0.4vw solid rgb(80, 80, 80);
     border-top: 0.4vw solid rgb(80, 80, 80);
     border-bottom: 0.4vw solid rgb(80, 80, 80);
+}
+
+.countbox {
+    height: 1vw;
+    padding-left: 0.2vw;
+    padding-right: 0.2vw;
+    position: absolute;
+    top: -0.1vw;
+    left: -0.1vw;
+    background-color: dimgrey;
+    color: white;
+    font-size: 0.9vw;
+    text-align: center;
 }
 
 .sidebartooltiptext {

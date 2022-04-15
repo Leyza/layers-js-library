@@ -12,7 +12,7 @@ function generateBurgerComponents(diagram) {
 
     diagram.setLayers(["bottom bun", "patty", "lettuce", "tomato", "top bun"]);
 
-    diagram.addComponentDescription("patty", "100% premium beef patty smoked to perfection then charred on the grill.");
+    diagram.addComponentDescription("patty", "<img style='width: 90%;' src='images/patty.png'></img> <br/> 100% premium beef patty smoked to perfection then charred on the grill.");
     diagram.addComponentDescription("top bun", "Soft bun sprinkled with sesame seeds and freshly baked every morning.");
     diagram.addComponentDescription("bottom bun", "Soft bun freshly baked every morning.");
     diagram.addComponentDescription("tomato", "Two sweet 1cm thick slices of organic tomatoes from the local farm.");
@@ -52,7 +52,7 @@ function generatePhoneComponents(diagram) {
     diagram.addLayer("battery");
     diagram.addLayer("phone screen");
 
-    diagram.addComponentDescription("audio jack", "6.35mm phone audio jack.");
+    diagram.addComponentDescription("audio jack", "3.5mm phone audio jack.");
     diagram.addComponentDescription("battery", "Lithium ion battery that takes 2 hours to charge and can last a whopping 10 minutes!");
     diagram.addComponentDescription("phone screen", "Bullet proof glass. <br/><br/><br/><br/><br/> Just kidding. <br/><br/><br/><br/><br/> You shattered it already didn't you? <br/><br/><br/><br/><br/> Thanks for paying more money to replace it :)");
     diagram.addComponentDescription("phone case", "Normal phone case.");
@@ -68,7 +68,7 @@ function generatePhoneComponents(diagram) {
         diagram.addLayer(<span class="string">"battery"</span>);
         diagram.addLayer(<span class="string">"phone screen"</span>);
 
-        diagram.addComponentDescription(<span class="string">"audio jack"</span>, <span class="string">"6.35mm phone audio jack."</span>);
+        diagram.addComponentDescription(<span class="string">"audio jack"</span>, <span class="string">"3.5mm phone audio jack."</span>);
         diagram.addComponentDescription(<span class="string">"battery"</span>, <span class="string">"Lithium ion battery that takes 2 hours to charge and can last a whopping 10 minutes!"</span>);
         diagram.addComponentDescription(<span class="string">"phone screen"</span>, <span class="string">"Bullet proof glass. <span class="keyword">&lt;br/&gt;</span> Just kidding. <span class="keyword">&lt;br/&gt;</span> You shattered it already didn't you? <span class="keyword">&lt;br/&gt;</span> Thanks for paying more money to replace it :)"</span>);
         diagram.addComponentDescription(<span class="string">"phone case"</span>, <span class="string">"Normal phone case."</span>);
@@ -79,7 +79,7 @@ function generateFlowerComponents(diagram, orientation) {
     if (orientation === "vertical") {
         diagram.addComponent(true, "ceramic flowerpot", "images/flowerpot.png", 30);
         diagram.addComponent(true, "pink flowers", "images/pink_flowers.png", 90, 10);
-        diagram.addComponent(true, "pink rose", "images/pink_rose.png", 100, 0, 50, 50);
+        diagram.addComponent(true, "pink tulip", "images/pink_rose.png", 100, 0, 50, 50);
         diagram.addComponent(true, "red roses", "images/red_roses.png", 100, 0, 50);
         diagram.addComponent(true, "sunflower", "images/sunflower.png", 100, 0, 80, "left");
         diagram.addComponent(true, "small tree", "images/small_tree.png", 100);
@@ -87,7 +87,7 @@ function generateFlowerComponents(diagram, orientation) {
         document.getElementById("verticalsamplejs").innerHTML += `
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"ceramic flowerpot"</span>, <span class="string">"images/flowerpot.png"</span>, <span class="keyword">30</span>);
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"pink flowers"</span>, <span class="string">"images/pink_flowers.png"</span>, <span class="keyword">90</span>, <span class="keyword">10</span>);
-        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"pink rose"</span>, <span class="string">"images/pink_rose.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>, <span class="keyword">50</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"pink tulip"</span>, <span class="string">"images/pink_rose.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>, <span class="keyword">50</span>);
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"red roses"</span>, <span class="string">"images/red_roses.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>);    
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"sunflower"</span>, <span class="string">"images/sunflower.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">80</span>, <span class="string">"left"</span>);
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"small tree"</span>, <span class="string">"images/small_tree.png"</span>, <span class="keyword">100</span>);
@@ -96,7 +96,7 @@ function generateFlowerComponents(diagram, orientation) {
 
         diagram.addComponentDescription(<span class="string">"ceramic flowerpot"</span>, <span class="string">"Hand crafted clay baked flower pot."</span>);
         diagram.addComponentDescription(<span class="string">"pink flowers"</span>, <span class="string">"Fresh bundle of sweet scented pink flowers."</span>);
-        diagram.addComponentDescription(<span class="string">"pink rose"</span>, <span class="string">"A single pink rose. Beware of large thorns."</span>);
+        diagram.addComponentDescription(<span class="string">"pink tulip"</span>, <span class="string">"A single pink tulip."</span>);
         diagram.addComponentDescription(<span class="string">"red roses"</span>, <span class="string">"A bundle of beautiful red roses. Perfect as a gift."</span>);
         diagram.addComponentDescription(<span class="string">"sunflower"</span>, <span class="string">"Vibrant yellow young sunflower."</span>);
         diagram.addComponentDescription(<span class="string">"small tree"</span>, <span class="string">"Lushious potted tree plant."</span>);
@@ -105,7 +105,7 @@ function generateFlowerComponents(diagram, orientation) {
     } else {
         diagram.addComponent(true, "ceramic flowerpot", "images/flowerpot.png", 100, 0, 50, "bottom");
         diagram.addComponent(true, "pink flowers", "images/pink_flowers.png", 90, 10, 80, "top");
-        diagram.addComponent(true, "pink rose", "images/pink_rose.png", 100, 0, 50, 17);
+        diagram.addComponent(true, "pink tulip", "images/pink_rose.png", 100, 0, 50, 17);
         diagram.addComponent(true, "red roses", "images/red_roses.png", 100, 0, 65, "top");
         diagram.addComponent(true, "sunflower", "images/sunflower.png", 100, 0, 50, 13);
         diagram.addComponent(true, "small tree", "images/small_tree.png", 100, 0, 62, "top");
@@ -113,7 +113,7 @@ function generateFlowerComponents(diagram, orientation) {
         document.getElementById("horizontalsamplejs").innerHTML += `
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"ceramic flowerpot"</span>, <span class="string">"images/flowerpot.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>, <span class="string">"bottom"</span>);
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"pink flowers"</span>, <span class="string">"images/pink_flowers.png"</span>, <span class="keyword">90</span>, <span class="keyword">10</span>, <span class="keyword">80</span>, <span class="string">"top"</span>);
-        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"pink rose"</span>, <span class="string">"images/pink_rose.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>, <span class="keyword">17</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"pink tulip"</span>, <span class="string">"images/pink_rose.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>, <span class="keyword">17</span>);
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"red roses"</span>, <span class="string">"images/red_roses.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">65</span>, <span class="string">"top"</span>);    
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"sunflower"</span>, <span class="string">"images/sunflower.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>, <span class="keyword">13</span>);
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"small tree"</span>, <span class="string">"images/small_tree.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">62</span>, <span class="string">"top"</span>);
@@ -122,7 +122,7 @@ function generateFlowerComponents(diagram, orientation) {
 
         diagram.addComponentDescription(<span class="string">"ceramic flowerpot"</span>, <span class="string">"Hand crafted clay baked flower pot."</span>);
         diagram.addComponentDescription(<span class="string">"pink flowers"</span>, <span class="string">"Fresh bundle of sweet scented pink flowers."</span>);
-        diagram.addComponentDescription(<span class="string">"pink rose"</span>, <span class="string">"A single pink rose. Beware of large thorns."</span>);
+        diagram.addComponentDescription(<span class="string">"pink tulip"</span>, <span class="string">"A single pink tulip. Beware of large thorns."</span>);
         diagram.addComponentDescription(<span class="string">"red roses"</span>, <span class="string">"A bundle of beautiful red roses. Perfect as a gift."</span>);
         diagram.addComponentDescription(<span class="string">"sunflower"</span>, <span class="string">"Vibrant yellow young sunflower."</span>);
         diagram.addComponentDescription(<span class="string">"small tree"</span>, <span class="string">"Lushious potted tree plant."</span>);
@@ -133,7 +133,7 @@ function generateFlowerComponents(diagram, orientation) {
 
     diagram.addComponentDescription("ceramic flowerpot", "Hand crafted clay baked flower pot.");
     diagram.addComponentDescription("pink flowers", "Fresh bundle of sweet scented pink flowers.");
-    diagram.addComponentDescription("pink rose", "A single pink rose. Beware of large thorns.");
+    diagram.addComponentDescription("pink tulip", "A single pink tulip. Beware of large thorns.");
     diagram.addComponentDescription("red roses","A bundle of beautiful red roses. Perfect as a gift.");
     diagram.addComponentDescription("sunflower", "Vibrant yellow young sunflower.");
     diagram.addComponentDescription("small tree", "Lushious potted tree plant.");

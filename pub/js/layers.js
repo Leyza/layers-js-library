@@ -71,13 +71,12 @@
             }
 
             const componentHolder = document.createElement("div");
-            componentHolder.style = `position: relative; box-sizing: border-box;`;
+            componentHolder.style = `position: relative; box-sizing: border-box; overflow-x: visible;`;
             componentHolder.className = "diagram";
 
             if (this.orientation == "vertical") {
                 componentHolder.style.margin = "5%";
                 componentHolder.style.overflowY = "auto";
-                componentHolder.style.overflowX = "hidden";
                 componentHolder.style.display = "flex";
                 componentHolder.style.flexDirection = "column";
 
@@ -91,7 +90,6 @@
 
             } else {
                 componentHolder.style.margin = "2%";
-                componentHolder.style.overflowX = "auto";
                 componentHolder.style.overflowY = "hidden";
                 componentHolder.style.display = "flex";
                 componentHolder.style.flexDirection = "row";
@@ -177,9 +175,13 @@
                 const tooltip = document.createElement("span");
                 tooltip.className = "sidebartooltiptext";
 
+                const countbox = document.createElement("div");
+                countbox.className = "countbox";
+
                 sidebar.append(sidebarcomponent);
                 sidebarcomponent.append(image);
                 sidebarcomponent.append(tooltip);
+                sidebarcomponent.append(countbox);
 
                 this.sidebarComponents++;
             }
@@ -204,10 +206,20 @@
                 }
             }
 
+            const counts = this.layersOrder.reduce((track, curr) => {
+                return track[curr] ? ++track[curr] : track[curr] = 1, track
+            }, {});
+
             $(`#${this.id} .sidebar`).children().each((i, c) => {
                 c.id = this.sidebar[i];
                 c.children[0].src = this.components[this.sidebar[i]].image;
                 c.children[1].innerText = this.sidebar[i];
+
+                if (c.id in counts) {
+                    c.children[2].innerText = counts[c.id];
+                } else {
+                    c.children[2].innerText = 0;
+                }
             })
         },
 
@@ -297,6 +309,8 @@
                 image.onclick = (e) => { this.popupShow(e) };
             }
             image.draggable = false;
+
+            //const menu = document.createElement("div");
 
             newlayer.append(image);
             diagram.prepend(newlayer);
@@ -523,9 +537,6 @@
             })
 
             this.updateAllLayers();
-            setTimeout(() => {
-                this.collapse();
-            }, 300);
         },
 
         dropComponentInSidebar: function (e) {
@@ -537,13 +548,8 @@
 
                 this.layersOrder.splice(index, 1);
 
-                //this.removeTopLayer();
                 this.updateAllLayers();
             }
-
-            setTimeout(() => {
-                this.collapse();
-            }, 300);
         },
 
         updateAllLayers: function () {
@@ -607,6 +613,8 @@
                 }
                 index += 1;
             });
+
+            this.updateAllSidebar();
         },
 
         popupShow: function (e) {

@@ -71,12 +71,13 @@
             }
 
             const componentHolder = document.createElement("div");
-            componentHolder.style = `position: relative; box-sizing: border-box; overflow-x: visible;`;
+            componentHolder.style = `position: relative; box-sizing: border-box;`;
             componentHolder.className = "diagram";
 
             if (this.orientation == "vertical") {
-                componentHolder.style.margin = "5%";
+                componentHolder.style.margin = "5% 5% 5% 0";
                 componentHolder.style.overflowY = "auto";
+                componentHolder.style.overflowX = "hidden";
                 componentHolder.style.display = "flex";
                 componentHolder.style.flexDirection = "column";
 
@@ -84,19 +85,20 @@
                     layersdiagram.style.height = this.diagramheight;
                     diagram.style.height = `calc(${this.diagramheight} - 1vw)`;
                     componentHolder.style.height = "95%";
-                    componentHolder.style.width = "calc(90% + 10px)";
-                    componentHolder.style.marginRight = "calc(5% - 10px)";
+                    componentHolder.style.width = "calc(95% + 10px)";
+                    //componentHolder.style.marginRight = "calc(5% - 10px)";
                 }
 
             } else {
-                componentHolder.style.margin = "2%";
+                componentHolder.style.margin = "0 2% 2% 2%";
                 componentHolder.style.overflowY = "hidden";
+                componentHolder.style.overflowX = "auto";
                 componentHolder.style.display = "flex";
                 componentHolder.style.flexDirection = "row";
 
                 layersdiagram.style.height = this.diagramheight;
                 diagram.style.height = `calc(${this.diagramheight} - 1vw)`;
-                componentHolder.style.height = "calc(90% + 10px)";
+                componentHolder.style.height = "calc(93% + 10px)";
 
                 if (this.diagramwidth != null) {
                     diagram.style.width = `calc(${this.diagramwidth} - 1vw)`;
@@ -108,8 +110,8 @@
             diagram.appendChild(componentHolder);
 
             //events
-            componentHolder.onmouseover = () => { this.fanout(); };
-            componentHolder.onmouseout = () => { this.collapse(); };
+            componentHolder.onmouseenter = () => { this.fanout(); };
+            componentHolder.onmouseleave = () => { this.collapse(); };
 
             if (element == null) {
                 const body = $("body");
@@ -125,6 +127,10 @@
                 this.updateAllSidebar();
             }
             this.updateAllLayers();
+
+            setTimeout(() => {
+                this.collapse();
+            }, 300);
         },
 
         addComponent: function (putInSidebar, name, image, overlap = 50, start = 0, size=100, alignment="center") {
@@ -270,6 +276,36 @@
             }
         },
 
+        shiftLayerUp: function (e) {
+            const index = e.target.parentElement.parentElement.style.zIndex - 1;
+
+            if (index < this.layers - 1) {
+                const temp = this.layersOrder[index];
+                this.layersOrder[index] = this.layersOrder[index + 1];
+                this.layersOrder[index + 1] = temp;
+            }
+
+            this.updateAllLayers();
+        },
+
+        shiftLayerDown: function (e) {
+            const index = e.target.parentElement.parentElement.style.zIndex - 1;
+
+            if (index > 1) {
+                const temp = this.layersOrder[index];
+                this.layersOrder[index] = this.layersOrder[index - 1];
+                this.layersOrder[index - 1] = temp;
+            }
+
+            this.updateAllLayers();
+        },
+
+        removeLayer: function (e) {
+            const index = e.target.parentElement.parentElement.style.zIndex - 1;
+            this.layersOrder.splice(index, 1);
+            this.updateAllLayers();
+        },
+
         addDiagramLayer: function (isDummy) {
             // Add a layer to the diagram
 
@@ -281,20 +317,22 @@
             // events
             if (!isDummy) {
                 newlayer.draggable = true;
-                //newlayer.onmouseover = () => { this.fanout() };
-                //newlayer.onmouseout = () => { this.collapse() };
                 newlayer.addEventListener('dragstart', (e) => { this.draggeditem = { type: "layer", name: null, zindex: e.target.style.zIndex }; this.fanout(); });
             }
 
             const image = document.createElement("img");
             image.className = "layerimage";
+
             if (this.orientation == "vertical") {
+                newlayer.style.paddingLeft = "5%";
+
                 if (this.diagramheight == null) {
                     image.style = `width: 100%;`;
                 } else {
                     image.style = `width: calc(100% - 10px)`;
                 }
             } else {
+                newlayer.style.paddingTop = "2%";
                 image.style.height = "100%";
             }
 
@@ -310,15 +348,112 @@
             }
             image.draggable = false;
 
-            //const menu = document.createElement("div");
-
             newlayer.append(image);
             diagram.prepend(newlayer);
-            this.layers++;
 
-            setTimeout(() => {
-                this.collapse();
-            }, 300);
+            if (!isDummy && this.allowEdit) {
+                const menu = document.createElement("div");
+                menu.style.visibility = "hidden";
+
+                const button1 = document.createElement("img");
+                button1.className = "menubutton";
+
+                const button2 = document.createElement("img");
+                button2.className = "menubutton";
+
+                const button3 = document.createElement("img");
+                button3.className = "menubutton";
+
+                if (this.orientation === "vertical") {
+                    menu.className = "verticalmenu";
+
+                    button1.src = 'images/up_arrow.png';
+                    button2.src = 'images/down_arrow.png';
+                    button3.src = 'images/xbutton.png';
+                } else {
+                    menu.className = "horizontalmenu";
+
+                    button1.src = 'images/left_arrow.png';
+                    button2.src = 'images/right_arrow.png';
+                    button3.src = 'images/xbutton.png';
+                }
+
+                newlayer.append(menu);
+                menu.append(button1);
+                menu.append(button2);
+                menu.append(button3);
+
+                // button events
+                button1.onclick = (e) => { this.shiftLayerUp(e) };
+                button2.onclick = (e) => { this.shiftLayerDown(e) };
+                button3.onclick = (e) => { this.removeLayer(e) };
+
+                button1.onmouseenter = () => {
+                    button1.src = (this.orientation === "vertical") ? 'images/up_arrow_hover.png' : 'images/left_arrow_hover.png';
+                }
+
+                button1.onmouseleave = () => {
+                    button1.src = (this.orientation === "vertical") ? 'images/up_arrow.png' : 'images/left_arrow.png';
+                }
+
+                button2.onmouseenter = () => {
+                    button2.src = (this.orientation === "vertical") ? 'images/down_arrow_hover.png' : 'images/right_arrow_hover.png';
+                }
+
+                button2.onmouseleave = () => {
+                    button2.src = (this.orientation === "vertical") ? 'images/down_arrow.png' : 'images/right_arrow.png';
+                }
+
+                button3.onmouseenter = () => {
+                    button3.src = 'images/xbutton_hover.png';
+                }
+
+                button3.onmouseleave = () => {
+                    button3.src = 'images/xbutton.png';
+                }
+
+                // layer events for menu
+                newlayer.onmouseenter = (e) => {
+                    let obj = e.target;
+                    if (obj.className != "layer") {
+                        if (obj.parentElement.className == "layer") {
+                            obj = obj.parentElement;
+                        } else {
+                            return;
+                        }
+                    }
+
+                    Array.from(obj.querySelectorAll(".verticalmenu")).forEach((c) => {
+                        c.style.visibility = "visible";
+                    });
+
+                    Array.from(obj.querySelectorAll(".horizontalmenu")).forEach((c) => {
+                        c.style.visibility = "visible";
+                    });
+                }
+
+                newlayer.onmouseleave = (e) => {
+                    let obj = e.target;
+                    if (obj.className != "layer") {
+                        if (obj.parentElement.className == "layer") {
+                            obj = obj.parentElement;
+                        } else {
+                            return;
+                        }
+                    }
+
+                    Array.from(obj.querySelectorAll(".verticalmenu")).forEach((c) => {
+                        c.style.visibility = "hidden";
+                    });
+
+                    Array.from(obj.querySelectorAll(".horizontalmenu")).forEach((c) => {
+                        c.style.visibility = "hidden";
+                    });
+                }
+            }
+
+
+            this.layers++;
         },
 
         removeTopLayer: function () {
@@ -532,9 +667,7 @@
             
             }
 
-            $(`#${this.id} .diagram .ghost`).each((i, c) => {
-                c.remove();
-            })
+            this.dragLeaveComponent(e);
 
             this.updateAllLayers();
         },

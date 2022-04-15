@@ -226,3 +226,30 @@
     cursor: pointer;
     background-color: rgb(54, 255, 140);
 }
+
+.verticalmenu {
+    position: absolute;
+    left: 0;
+    top: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.horizontalmenu {
+    position: absolute;
+    left: 20%;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.menubutton {
+    width: 2vw;
+    height: 2vw;
+}
+
+.menubutton:hover {
+    cursor: pointer;
+}

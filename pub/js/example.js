@@ -122,7 +122,7 @@ function generateFlowerComponents(diagram, orientation) {
 
         diagram.addComponentDescription(<span class="string">"ceramic flowerpot"</span>, <span class="string">"Hand crafted clay baked flower pot."</span>);
         diagram.addComponentDescription(<span class="string">"pink flowers"</span>, <span class="string">"Fresh bundle of sweet scented pink flowers."</span>);
-        diagram.addComponentDescription(<span class="string">"pink tulip"</span>, <span class="string">"A single pink tulip. Beware of large thorns."</span>);
+        diagram.addComponentDescription(<span class="string">"pink tulip"</span>, <span class="string">"A single pink tulip."</span>);
         diagram.addComponentDescription(<span class="string">"red roses"</span>, <span class="string">"A bundle of beautiful red roses. Perfect as a gift."</span>);
         diagram.addComponentDescription(<span class="string">"sunflower"</span>, <span class="string">"Vibrant yellow young sunflower."</span>);
         diagram.addComponentDescription(<span class="string">"small tree"</span>, <span class="string">"Lushious potted tree plant."</span>);
@@ -133,7 +133,7 @@ function generateFlowerComponents(diagram, orientation) {
 
     diagram.addComponentDescription("ceramic flowerpot", "Hand crafted clay baked flower pot.");
     diagram.addComponentDescription("pink flowers", "Fresh bundle of sweet scented pink flowers.");
-    diagram.addComponentDescription("pink tulip", "A single pink tulip. Beware of large thorns.");
+    diagram.addComponentDescription("pink tulip", "A single pink tulip.");
     diagram.addComponentDescription("red roses","A bundle of beautiful red roses. Perfect as a gift.");
     diagram.addComponentDescription("sunflower", "Vibrant yellow young sunflower.");
     diagram.addComponentDescription("small tree", "Lushious potted tree plant.");

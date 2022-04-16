@@ -67,7 +67,7 @@ body {
 }
 
 .sectionheader {
-    color: darkblue;
+    color: rgb(0, 0, 90);
     font-size: 40px;
 }
 
@@ -75,11 +75,19 @@ body {
     color: darkblue;
     font-size: 30px;
     margin: 0;
+    border-top: 0.2vw solid rgb(0, 0, 90);
+    padding-top: 1vw;
 }
 
 .lastsectionheader {
-    color: darkblue;
+    color: rgb(0, 0, 190);
     font-size: 25px;
+    margin: 0;
+}
+
+.codeheader {
+    color: darkblue;
+    font-size: 30px;
     margin: 0;
 }
 
@@ -139,13 +147,21 @@ pre code {
     color: darkorange;
 }
 
-.apisection {
+.descriptionsection {
     margin-left: 5vw;
     margin-bottom: 5vw;
 }
 
 .parameter {
-    color: darkblue;
+    color: rgb(0, 0, 180);
     font-size: 17px;
     font-weight: bold;
+}
+
+.showcasemedia {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    max-width: 75vw;
+    max-height: 40vw;
 }

@@ -10,7 +10,7 @@ https://layers-js-library.herokuapp.com/api.html
 
 ## Getting Started
 
-To start using Layers.js, you must include <strong>layers.js</strong>, <strong>layers_style.css</strong>, and the <strong>jquery library</strong> in the head section of your html page as shown below.
+To start using Layers.js, you must include <strong>layers.js</strong>, <strong>layers_style.css</strong>, and the <strong>jquery library</strong> in the head section of your html page using <strong>script defer</strong> as shown below.
 
 ```
 <!DOCTYPE html>
@@ -25,8 +25,9 @@ To start using Layers.js, you must include <strong>layers.js</strong>, <strong>l
 </head>
 ```
 
-Now you're ready to start creating diagrams with layers.js! Use the code below to initialize a simple 30vw by 50vw vertical diagram with a 10 layer limit. You can add your own images and customize your diagram from there.
+Now you're ready to start creating diagrams with layers.js! Use the code below to initialize a simple 30vw by 50vw vertical diagram with a 10 layer limit and draw it to the body. You can add your own images and customize your diagram from there. Example complete working implementations with code can be found on the examples page: https://layers-js-library.herokuapp.com/example.html.
 
 ```
 const diagram = new LayersDiagram("newID", "10vw", "30vw", "30vw", "50vw", "vertical", true, 10);
+diagram.makeDiagram();
 ```

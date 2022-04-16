@@ -22,7 +22,7 @@
     <div class="content">
         <h2 class="sectionheader">Getting Started</h2>
 
-        To start using Layers.js, you must include <strong>layers.js</strong>, <strong>layers_style.css</strong>, and the <strong>jquery library</strong> in the head section of your html page as shown below.
+        To start using Layers.js, you must include <strong>layers.js</strong>, <strong>layers_style.css</strong>, and the <strong>jquery library</strong> in the head section of your html page using <strong>script defer</strong> as shown below.
 
         <pre>
         <code>
@@ -39,11 +39,12 @@
         </code>
         </pre>
 
-        Now you're ready to start creating diagrams with layers.js! Use the code below to initialize a simple 30vw by 50vw vertical diagram with a 10 layer limit. You can add your own images and customize your diagram from there. Example complete working implementations with code can be found on the <a href="/example.html">examples page</a>.
+        Now you're ready to start creating diagrams with layers.js! Use the code below to initialize a simple 30vw by 50vw vertical diagram with a 10 layer limit and draw it to the body. You can add your own images and customize your diagram from there. Example complete working implementations with code can be found on the <a href="/example.html">examples page</a>.
 
         <pre>
         <code>
         <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"newID"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, <span class="string">"30vw"</span>, <span class="string">"50vw"</span>, <span class="string">"vertical"</span>, <span class="keyword">true</span>, <span class="keyword">10</span>);
+        diagram.makeDiagram();
         </code>
         </pre>
 
@@ -66,10 +67,12 @@
 
             this.layers = <span class="keyword">0</span>;
             this.layersOrder = [<span class="keyword">null</span>];
+            this.dummy = {<span class="string">"vertical"</span>: {component object}, <span class="string">"horizontal"</span>: {component object}};
             this.components = {};
             this.allowEdit = <span class="keyword">true</span>;
             this.sidebarComponents = <span class="keyword">0</span>;
             this.sidebar = [];
+            this.draggeditem = <span class="keyword">null</span>;
         }
         </code>
         </pre>
@@ -91,10 +94,12 @@
                 <li><span class="parameter">this.layerlimit - </span>the maximum number of layers this layers diagram allows plus one.</li>
                 <li><span class="parameter">this.layers - </span>the number of layers currently drawn to the webpage.</li>
                 <li><span class="parameter">this.layersOrder - </span>a list of component names specifying layers currently in this layers diagram.</li>
+                <li><span class="parameter">this.dummy - </span>placeholder components for a blank layer in a diagram. Contains two component objects, one for vertical diagrams and one for horizontal diagrams.</li>
                 <li><span class="parameter">this.components - </span>an object containing mapping from component names to component objects.</li>
                 <li><span class="parameter">this.allowEdit - </span>boolean determining whether this layers diagram allows user modifications.</li>
                 <li><span class="parameter">this.sidebarComponents - </span>the number of sidebar components currently drawn to the webpage.</li>
                 <li><span class="parameter">this.sidebar - </span>a list of component names specifying components currently in this layers diagram's sidebar.</li>
+                <li><span class="parameter">this.draggeditem - </span>information on the element currently being dragged in the diagram. null if no element is currently being dragged.</li>
             </ul>
         </div>
 
@@ -357,6 +362,7 @@
                 <li>A list of component name identifiers.</li>
             </ul>
         </div>
+
 
     </div>
 

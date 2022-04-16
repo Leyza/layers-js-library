@@ -142,8 +142,11 @@ function generateSpeakerComponents(diagram) {
 
     diagram.setLayers(["back cover", "speaker cover", "speaker", "front cover", "grill mesh"]);
 
-    diagram.addComponentDescription("grill mesh", "7mm x 7mm aluminum speaker grill mesh.")
+    diagram.addComponentDescription("grill mesh", "5mm x 5mm aluminum speaker grill mesh. <br/><br/><br/> 7mm x 7mm speaker grill mesh also available: <img style='width: 90%' src='images/speaker_grill.jpg'></img>")
     diagram.addComponentDescription("speaker", "90dB speakers.");
+    diagram.addComponentDescription("front cover", "Black plastic speaker case.");
+    diagram.addComponentDescription("speaker cover", "Black plastic cover over the speakers.");
+    diagram.addComponentDescription("back cover", "Black plastic speaker back cover.")
 
     document.getElementById("horizontalsamplejs").innerHTML += `
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"grill mesh"</span>, <span class="string">"images/speaker1.png"</span>, <span class="keyword">50</span>);
@@ -154,8 +157,11 @@ function generateSpeakerComponents(diagram) {
 
         diagram.setLayers([<span class="string">"back cover"</span>, <span class="string">"speaker cover"</span>, <span class="string">"speaker"</span>, <span class="string">"front cover"</span>, <span class="string">"grill mesh"</span>]);
 
-        diagram.addComponentDescription(<span class="string">"grill mesh"</span>, <span class="string">"7mm x 7mm aluminum speaker grill mesh."</span>);
+        diagram.addComponentDescription(<span class="string">"grill mesh"</span>, <span class="string">"7mm x 7mm aluminum speaker grill mesh. &lt;br/&gt;&lt;br/&gt;&lt;br/&gt; 7mm x 7mm speaker grill mesh also available: &lt;img style='width: 90%' src='images/speaker_grill.jpg'&gt;&lt;/img&gt;"</span>);
         diagram.addComponentDescription(<span class="string">"speaker"</span>, <span class="string">"90dB speakers."</span>);
+        diagram.addComponentDescription(<span class="string">"front cover"</span>, <span class="string">"Black plastic speaker case."</span>);
+        diagram.addComponentDescription(<span class="string">"speaker cover"</span>, <span class="string">"Black plastic cover over the speakers."</span>);
+        diagram.addComponentDescription(<span class="string">"back cover"</span>, <span class="string">"Black plastic speaker back cover."</span>)
     `
 }
 

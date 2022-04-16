@@ -3,10 +3,14 @@ body {
     background-attachment: fixed;
 }
 
+.popup {
+    background: linear-gradient(to left bottom, white, dodgerblue);
+}
+
 .titlebox {
     margin: 0;
     top: 50%;
-    left: 50%;
+    left: 47%;
     bottom: 0;
     right: 0;
     position: fixed;
@@ -30,6 +34,8 @@ body {
 }
 
 .buttonholder {
+    margin-top: 1vw;
+    margin-bottom: 5vw;
     display: flex;
     flex-direction: row;
     align-items: center;

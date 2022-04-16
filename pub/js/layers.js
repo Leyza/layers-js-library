@@ -3,9 +3,10 @@
 
 (function (global, document, $) { 
 
-    function LayersDiagram(id, sidebarwidth, sidebarheight, diagramwidth = null, diagramheight = null, orientation = "vertical", allowEdit = true, layerlimit = Infinity) {
+    function LayersDiagram(id, sidebarwidth, sidebarheight, diagramwidth = null, diagramheight = null, orientation = "vertical", hasBorder=true, allowEdit = true, layerlimit = Infinity) {
 
         this.id = id;
+        this.hasBorder = hasBorder;
         this.orientation = (orientation == "horizontal") ? "horizontal" : "vertical";
         this.diagramwidth = diagramwidth;
         this.diagramheight = diagramheight;
@@ -44,7 +45,12 @@
 
             const diagram = document.createElement("div");
             diagram.className = "diagrambox";
-            diagram.style = `border: 0.5vw solid black; border-radius: 3vw; position: relative;`;
+            diagram.style = `position: relative;`;
+
+            if (this.hasBorder) {
+                diagram.style.border = "0.5vw solid black";
+                diagram.style.borderRadius = "3vw";
+            }
 
             if (this.allowEdit) {
                 if (this.diagramwidth != null) {
@@ -129,7 +135,9 @@
             this.updateAllLayers();
 
             setTimeout(() => {
-                this.collapse();
+                if ($(`#${this.id} .diagram:hover`).length == 0) {
+                    this.collapse();
+                }
             }, 300);
         },
 
@@ -171,7 +179,11 @@
                     this.fanout();
                 });
                 sidebarcomponent.addEventListener("dragover", (e) => { e.preventDefault(); });
-                sidebarcomponent.ondragend = () => { this.collapse() };
+                sidebarcomponent.ondragend = () => {
+                    if ($(`#${this.id} .diagram:hover`).length == 0) {
+                        this.collapse();
+                    }
+                };
                 sidebarcomponent.ondrop = (e) => { this.dropComponentInSidebar(e); this.draggeditem = null; };
 
                 const image = document.createElement("img");

@@ -165,7 +165,7 @@ function generateDiagram(id, sample, edit, width, height, layers, orientation) {
     const maxHeight = (height == 'no limit') ? null : height;
     const maxLayers = (layers == 'no limit') ? Infinity : parseInt(layers);
 
-    const diagram = new LayersDiagram(id, "10vw", "30vw", maxWidth, maxHeight, orientation, allowEdit, maxLayers);
+    const diagram = new LayersDiagram(id, "10vw", "30vw", maxWidth, maxHeight, orientation, true, allowEdit, maxLayers);
 
     if (orientation == "vertical") {
         diagram.makeDiagram(document.getElementById("verticaldiagramspot"));
@@ -176,7 +176,7 @@ function generateDiagram(id, sample, edit, width, height, layers, orientation) {
 
         const heightCode = (maxHeight == null) ? `<span class="keyword">${maxHeight}</span>` : `<span class="string">"${maxHeight}"</span>`;
         document.getElementById("verticalsamplejs").innerHTML = `
-        <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"samplediagram"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, <span class="string">"30vw"</span>, ${heightCode}, <span class="keyword">${allowEdit}</span>, <span class="keyword">${maxLayers}</span>);
+        <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"samplediagram"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, <span class="string">"30vw"</span>, ${heightCode}, <span class="keyword">true</span>, <span class="keyword">${allowEdit}</span>, <span class="keyword">${maxLayers}</span>);
         diagram.makeDiagram(document.getElementById(<span class="string">"verticaldiagramspot"</span>));
     `
     } else {
@@ -188,7 +188,7 @@ function generateDiagram(id, sample, edit, width, height, layers, orientation) {
 
         const widthCode = (maxWidth == null) ? `<span class="keyword">${maxWidth}</span>` : `<span class="string">"${maxWidth}"</span>`;
         document.getElementById("horizontalsamplejs").innerHTML = `
-        <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"samplediagram"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, ${widthCode}, <span class="string">"36vw"</span>, <span class="keyword">${allowEdit}</span>, <span class="keyword">${maxLayers}</span>);
+        <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"samplediagram"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, ${widthCode}, <span class="string">"36vw"</span>, <span class="keyword">true</span>, <span class="keyword">${allowEdit}</span>, <span class="keyword">${maxLayers}</span>);
         diagram.makeDiagram(document.getElementById(<span class="string">"horizontaldiagramspot"</span>));
     `
     }

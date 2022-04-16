@@ -39,7 +39,7 @@
         </code>
         </pre>
 
-        Now you're ready to start creating diagrams with layers.js! Use the code below to initialize a simple 30vw by 50vw vertical diagram with a 10 layer limit. You can add your own images and customize your diagram from there.
+        Now you're ready to start creating diagrams with layers.js! Use the code below to initialize a simple 30vw by 50vw vertical diagram with a 10 layer limit. You can add your own images and customize your diagram from there. Example complete working implementations with code can be found on the <a href="/example.html">examples page</a>.
 
         <pre>
         <code>
@@ -55,6 +55,7 @@
         <code>
         {
             this.id = <span class="string">"someid"</span>;
+            this.hasBorder = <span class="keyword">true</span>;
             this.orientation = <span class="string">"vertical"</span>;
             this.diagramwidth = <span class="string">"30vw"</span>;
             this.diagramheight = <span class="string">"50vw"</span>;
@@ -80,6 +81,7 @@
             <h4 class="lastsectionheader">Values:</h4>
             <ul>
                 <li><span class="parameter">this.id - </span>unique id of this layers diagram.</li>
+                <li><span class="parameter">this.hasBorder - </span>boolean to determine whether the diagram will contain its default border.</li>
                 <li><span class="parameter">this.orientation - </span>the orientation of this layers diagram. Either "horizontal" or "vertical".</li>
                 <li><span class="parameter">this.diagramwidth - </span>width of this layers diagram.</li>
                 <li><span class="parameter">this.diagramheight - </span>height of this layers diagram.</li>
@@ -138,9 +140,9 @@
 
         <h3 class="smallsectionheader">Constructor</h3>
         <pre>
-        <code>
-        LayersDiagram(id, sidebarwidth, sidebarheight, diagramwidth = <span class="keyword">null</span>, diagramheight = <span class="keyword">null</span>, orientation = <span class="string">"vertical"</span>, allowEdit = <span class="keyword">true</span>, layerlimit = <span class="keyword">Infinity</span>)
-        </code>
+            <code>
+                LayersDiagram(id, sidebarwidth, sidebarheight, diagramwidth = <span class="keyword">null</span>, diagramheight = <span class="keyword">null</span>, orientation = <span class="string">"vertical"</span>, hasBorder = <span class="keyword">true</span>, allowEdit = <span class="keyword">true</span>, layerlimit = <span class="keyword">Infinity</span>)
+            </code>
         </pre>
 
         <div class="descriptionsection">
@@ -155,6 +157,7 @@
                 <li><span class="parameter">diagramwidth - </span>the width of the diagram. An input is required for vertically oriented diagrams. For horizontally oriented diagrams, an input of null means there is no width limit to the diagram. Default value is null.</li>
                 <li><span class="parameter">diagramheight - </span>the height of the diagram. An input is required for horizontally oriented diagrams. For vertically oriented diagrams, an input of null means there is no height limit to the diagram. Default value is null.</li>
                 <li><span class="parameter">orientation - </span>the orientation of the diagram, either "vertical" or "horizontal". Default value is "vertical".</li>
+                <li><span class="parameter">hasBorder - </span>boolean specifying whether to include the default border around the diagram or not. Default value is true.</li>
                 <li><span class="parameter">allowEdit - </span>boolean specifying whether to allow user modification of the diagram. true means users may modify the created diagram, false means users cannot modify the created diagram. Default value is true.</li>
                 <li><span class="parameter">layerlimit - </span>the maximum number of layers allowed in the diagram. Default value is infinity.</li>
             </ul>

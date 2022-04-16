@@ -43,7 +43,7 @@
 
         <pre>
         <code>
-        <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"newID"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, <span class="string">"30vw"</span>, <span class="string">"50vw"</span>, <span class="string">"vertical"</span>, <span class="keyword">true</span>, <span class="keyword">10</span>);
+        <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"newID"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, <span class="string">"30vw"</span>, <span class="string">"50vw"</span>, <span class="string">"vertical"</span>, <span class="keyword">true</span>, <span class="keyword">true</span>, <span class="keyword">10</span>);
         diagram.makeDiagram();
         </code>
         </pre>
@@ -89,13 +89,13 @@
                 <li><span class="parameter">this.diagramwidth - </span>width of this layers diagram.</li>
                 <li><span class="parameter">this.diagramheight - </span>height of this layers diagram.</li>
                 <li><span class="parameter">this.sidebarwidth - </span>width of this layers diagram's sidebar.</li>
-                <li><span class="parameter">this.sidebarheight - </span>height of this layers diagram's sidebar.</li>
+                <li><span class="parameter">this.sidebarheight - </span>maximum height of this layers diagram's sidebar.</li>
                 <li><span class="parameter">this.madeDiagram - </span>boolean specifying whether this diagram has been drawn to the webpage yet.</li>
                 <li><span class="parameter">this.layerlimit - </span>the maximum number of layers this layers diagram allows plus one.</li>
                 <li><span class="parameter">this.layers - </span>the number of layers currently drawn to the webpage.</li>
                 <li><span class="parameter">this.layersOrder - </span>a list of component names specifying layers currently in this layers diagram.</li>
-                <li><span class="parameter">this.dummy - </span>placeholder components for a blank layer in a diagram. Contains two component objects, one for vertical diagrams and one for horizontal diagrams.</li>
-                <li><span class="parameter">this.components - </span>an object containing mapping from component names to component objects.</li>
+                <li><span class="parameter">this.dummy - </span>placeholder components for a blank layer in the diagram. Contains two component objects, one for vertical diagrams and one for horizontal diagrams.</li>
+                <li><span class="parameter">this.components - </span>the components in this layers diagram. An object containing mapping from component names to component objects.</li>
                 <li><span class="parameter">this.allowEdit - </span>boolean determining whether this layers diagram allows user modifications.</li>
                 <li><span class="parameter">this.sidebarComponents - </span>the number of sidebar components currently drawn to the webpage.</li>
                 <li><span class="parameter">this.sidebar - </span>a list of component names specifying components currently in this layers diagram's sidebar.</li>
@@ -145,9 +145,9 @@
 
         <h3 class="smallsectionheader">Constructor</h3>
         <pre>
-            <code>
-                LayersDiagram(id, sidebarwidth, sidebarheight, diagramwidth = <span class="keyword">null</span>, diagramheight = <span class="keyword">null</span>, orientation = <span class="string">"vertical"</span>, hasBorder = <span class="keyword">true</span>, allowEdit = <span class="keyword">true</span>, layerlimit = <span class="keyword">Infinity</span>)
-            </code>
+        <code>
+        LayersDiagram(id, sidebarwidth, sidebarheight, diagramwidth = <span class="keyword">null</span>, diagramheight = <span class="keyword">null</span>, orientation = <span class="string">"vertical"</span>, hasBorder = <span class="keyword">true</span>, allowEdit = <span class="keyword">true</span>, layerlimit = <span class="keyword">Infinity</span>)     
+        </code>
         </pre>
 
         <div class="descriptionsection">
@@ -213,9 +213,9 @@
                 <li><span class="parameter">putInSidebar - </span>boolean to determine whether this component will be included in the sidebar. true means the component will be included in the sidebar, false means the component will not be in the sidebar.</li>
                 <li><span class="parameter">name - </span>unique name identifier for the component. There cannot be multiple components with the same name in the same layers diagram.</li>
                 <li><span class="parameter">image - </span>path to the image for the component.</li>
-                <li><span class="parameter">overlap - </span>percent of this component that will be overlapped by the component above it in the diagram collapse form. Default value is 50.</li>
-                <li><span class="parameter">start - </span>percent of this component that will cover the component beneath it in the diagram collapse form. Default value is 0.</li>
-                <li><span class="parameter">size - </span>percent of the diagram dimension (width for vertical diagram, height for horizontal diagram) that the component will fit to. Default value is 100.</li>
+                <li><span class="parameter">overlap - </span>percent of this component that will be overlapped by the component above it in the diagram collapsed view. Default value is 50.</li>
+                <li><span class="parameter">start - </span>percent of this component that will cover the component beneath it in the diagram collapsed view. Default value is 0.</li>
+                <li><span class="parameter">size - </span>percent of the diagram dimension (width for vertical diagram, height for horizontal diagram) that the component will scale to. Default value is 100.</li>
                 <li><span class="parameter">alignment - </span>the alignment of the component in the diagram. This value can be a preset alignment, or a number specifying the percent distance from the top of a horizontal diagram or left side of a vertical diagram. Preset alignments are "left", "center", "right" for vertical diagrams, and "top", "center", "bottom" for horizontal diagrams. Default value is "center".</li>
             </ul>
             <h4 class="lastsectionheader">Return Value:</h4>

@@ -138,7 +138,7 @@ function generateFlowerComponents(diagram, orientation) {
 function generateSpeakerComponents(diagram) {
     diagram.addComponent(true, "grill mesh", "images/speaker1.png", 50);
     diagram.addComponent(true, "front cover", "images/speaker2.png", 98);
-    diagram.addComponent(true, "speaker", "images/speaker3.png", 100, 0, 50);
+    diagram.addComponent(true, "speaker", "images/speaker3.png", 100, 0, 50, 35);
     diagram.addComponent(true, "speaker cover", "images/speaker4.png", 90);
     diagram.addComponent(true, "back cover", "images/speaker5.png", 100);
 
@@ -153,7 +153,7 @@ function generateSpeakerComponents(diagram) {
     document.getElementById("horizontalsamplejs").innerHTML += `
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"grill mesh"</span>, <span class="string">"images/speaker1.png"</span>, <span class="keyword">50</span>);
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"front cover"</span>, <span class="string">"images/speaker2.png"</span>, <span class="keyword">98</span>);
-        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"speaker"</span>, <span class="string">"images/speaker3.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>);
+        diagram.addComponent(<span class="keyword">true</span>, <span class="string">"speaker"</span>, <span class="string">"images/speaker3.png"</span>, <span class="keyword">100</span>, <span class="keyword">0</span>, <span class="keyword">50</span>, <span class="keyword">35</span>);
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"speaker cover"</span>, <span class="string">"images/speaker4.png"</span>, <span class="keyword">90</span>);    
         diagram.addComponent(<span class="keyword">true</span>, <span class="string">"back cover"</span>, <span class="string">"images/speaker5.png"</span>, <span class="keyword">100</span>);
 
@@ -184,7 +184,7 @@ function generateDiagram(id, sample, edit, width, height, layers, orientation) {
 
         const heightCode = (maxHeight == null) ? `<span class="keyword">${maxHeight}</span>` : `<span class="string">"${maxHeight}"</span>`;
         document.getElementById("verticalsamplejs").innerHTML = `
-        <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"samplediagram"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, <span class="string">"30vw"</span>, ${heightCode}, <span class="keyword">true</span>, <span class="keyword">${allowEdit}</span>, <span class="keyword">${maxLayers}</span>);
+        <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"samplediagram"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, <span class="string">"30vw"</span>, ${heightCode}, <span class="string">"${orientation}"</span>, <span class="keyword">true</span>, <span class="keyword">${allowEdit}</span>, <span class="keyword">${maxLayers}</span>);
         diagram.makeDiagram(document.getElementById(<span class="string">"verticaldiagramspot"</span>));
     `
     } else {
@@ -196,7 +196,7 @@ function generateDiagram(id, sample, edit, width, height, layers, orientation) {
 
         const widthCode = (maxWidth == null) ? `<span class="keyword">${maxWidth}</span>` : `<span class="string">"${maxWidth}"</span>`;
         document.getElementById("horizontalsamplejs").innerHTML = `
-        <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"samplediagram"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, ${widthCode}, <span class="string">"36vw"</span>, <span class="keyword">true</span>, <span class="keyword">${allowEdit}</span>, <span class="keyword">${maxLayers}</span>);
+        <span class="keyword">const</span> diagram = <span class="keyword">new</span> LayersDiagram(<span class="string">"samplediagram"</span>, <span class="string">"10vw"</span>, <span class="string">"30vw"</span>, ${widthCode}, <span class="string">"36vw"</span>, <span class="string">"${orientation}"</span>, <span class="keyword">true</span>, <span class="keyword">${allowEdit}</span>, <span class="keyword">${maxLayers}</span>);
         diagram.makeDiagram(document.getElementById(<span class="string">"horizontaldiagramspot"</span>));
     `
     }

@@ -165,3 +165,16 @@ pre code {
     max-width: 75vw;
     max-height: 40vw;
 }
+
+.diagramdetails {
+    display: flex;
+    flex-direction: row;
+}
+
+.smalldiagrams {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    max-width: 35vw;
+    max-height: 40vw;
+}

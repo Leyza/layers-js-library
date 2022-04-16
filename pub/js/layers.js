@@ -566,9 +566,6 @@
                 return;
             }
 
-            //this.collapse((index > Math.ceil(this.layers / 2)) ? index : index - 1); // For when fan out from the middle
-            //this.collapse(index - 1); // For when fan out from the top
-
             if (this.draggeditem.zindex != index) {
                 if (index < this.layers) {
                     if (this.orientation === "vertical") {
@@ -579,7 +576,7 @@
                         $(`#${this.id} .diagram`).children()[this.layers - index - 1].style.transform = `translateX(-${shiftleft}px)`;
                     }
                 }
-
+                
                 const img = document.createElement("img");
                 img.className = "ghost";
                 img.src = this.components[component].image;

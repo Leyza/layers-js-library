@@ -253,3 +253,7 @@
 .menubutton:hover {
     cursor: pointer;
 }
+
+.ghost {
+    pointer-events: none;
+}

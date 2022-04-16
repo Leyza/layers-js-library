@@ -536,17 +536,6 @@
             });
         },
 
-        getHoveredLayer: function () {
-            // Get layer div that mouse is hovered over
-
-            const droploc = document.querySelectorAll(`.layer :hover`);
-
-            if (droploc.length > 0) {
-                return droploc[droploc.length - 1].parentElement;
-            }
-            return null
-        },
-
         dragComponent: function (e) {
             // Move diagram to show dragged component location
             e.preventDefault();

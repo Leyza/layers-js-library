@@ -112,6 +112,7 @@ function generateFlowerComponents(diagram, orientation) {
     }
 
     diagram.addLayer("ceramic flowerpot");
+    diagram.addLayer("small tree");
 
     diagram.addComponentDescription("ceramic flowerpot", "<img style='width: 90%;' src='images/making_clay_pot.jpg'></img> Hand crafted clay baked flower pot.");
     diagram.addComponentDescription("pink flowers", "Fresh bundle of sweet scented pink flowers.");
@@ -122,6 +123,7 @@ function generateFlowerComponents(diagram, orientation) {
 
     document.getElementById(orientation + "samplejs").innerHTML += `
         diagram.addLayer(<span class="string">"ceramic flowerpot"</span>);
+        diagram.addLayer(<span class="string">"small tree"</span>);
 
         diagram.addComponentDescription(<span class="string">"ceramic flowerpot"</span>, <span class="string">"&lt;img style='width: 90%;' src='images/making_clay_pot.jpg'&gt;&lt;/img&gt; Hand crafted clay baked flower pot."</span>);
         diagram.addComponentDescription(<span class="string">"pink flowers"</span>, <span class="string">"Fresh bundle of sweet scented pink flowers."</span>);

@@ -31,3 +31,6 @@ Now you're ready to start creating diagrams with layers.js! Use the code below t
 const diagram = new LayersDiagram("newID", "10vw", "30vw", "30vw", "50vw", "vertical", true, true, 10);
 diagram.makeDiagram();
 ```
+
+## Running Locally
+To run the app locally, use `npm start` or `node app.js` to start the express server.

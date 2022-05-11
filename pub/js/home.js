@@ -18,5 +18,5 @@ $("#titlediagram .diagram").children()[2].innerHTML = `<div class="buttonholder"
             <a href="/showcase.html" class="navbutton">Showcase</a>
             <a href="/example.html" class="navbutton">Examples</a>
             <a href="/api.html" class="navbutton">Documentation</a>
-            <a href="https://github.com/csc309-winter-2022/js-library-wangni39" target="_blank" class="navbutton">Github</a>
+            <a href="https://github.com/Leyza/layers-js-library" target="_blank" class="navbutton">Github</a>
         </div >`;

@@ -1,4 +1,6 @@
-# js-library-wangni39
+# Layers.js
+
+A javascript library to simplify the creation of interactive layered diagrams. Created by one student for a Web Development course.
 
 ## Landing Page
 
